@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#050507">
+<title>しゅんの宣告</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body {
+  background: #000;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px 32px;
+  font-family: 'Noto Serif JP', serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ================================================
+   THE CARD — this is what gets screenshotted
+   ================================================ */
+#capture-card {
+  position: relative;
+  width: 100%;
+  max-width: 390px;
+  /* Vertical: golden-ish proportion for mobile screenshot */
+  padding: 52px 36px 44px;
+  background: #09090d;
+  overflow: hidden;
+  isolation: isolate;
+  /* Subtle border for definition on dark bg */
+  box-shadow: inset 0 0 0 0.5px rgba(192,192,192,0.12);
+}
+
+/* Marble base */
+#capture-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 500px 250px at 10% 5%, rgba(255,255,255,0.045), transparent 60%),
+    radial-gradient(ellipse 400px 350px at 92% 98%, rgba(180,190,220,0.035), transparent 65%),
+    linear-gradient(135deg, #080810 0%, #14141e 28%, #09090f 55%, #181820 82%, #0b0b13 100%);
+  z-index: 0;
+}
+/* Marble vein */
+#capture-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(108deg, transparent 44%, rgba(255,255,255,0.018) 46%, rgba(255,255,255,0.028) 47%, rgba(255,255,255,0.018) 48%, transparent 50%),
+    linear-gradient(72deg, transparent 30%, rgba(255,255,255,0.01) 33%, rgba(255,255,255,0.016) 34%, transparent 36%);
+  background-size: 380px 580px, 560px 380px;
+  z-index: 0;
+}
+
+/* Smoke / atmosphere */
+.card-smoke {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(ellipse 320px 200px at 22% 20%, rgba(210,215,240,0.065), transparent 70%),
+    radial-gradient(ellipse 260px 190px at 78% 70%, rgba(190,200,225,0.05), transparent 70%),
+    radial-gradient(ellipse 400px 280px at 50% 105%, rgba(150,160,195,0.07), transparent 70%);
+  animation: smoke 28s ease-in-out infinite;
+}
+@keyframes smoke {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%      { transform: translate(-6px,8px) scale(1.06); }
+}
+
+/* Vignette */
+.card-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.52) 90%);
+}
+
+/* All card content sits on z-index 5+ */
+.card-inner {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  color: #e8e8ea;
+}
+
+/* ---- Brand ---- */
+.c-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 10px;
+  letter-spacing: 0.6em;
+  color: #9a9aa4;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadein 1.4s ease 0.2s forwards;
+}
+
+/* ---- Main title ---- */
+.c-title {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 30px;
+  letter-spacing: 0.55em;
+  color: #f2f2f4;
+  text-indent: 0.55em;
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: fadein 1.4s ease 0.5s forwards;
+}
+.c-title-en {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 10px;
+  letter-spacing: 0.7em;
+  color: #7a7a88;
+  text-transform: uppercase;
+  font-weight: 300;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadein 1.4s ease 0.8s forwards;
+}
+
+/* ---- Silver vertical line ---- */
+.c-vline {
+  width: 1px;
+  height: 30px;
+  margin: 6px auto 24px;
+  background: linear-gradient(to bottom,
+    transparent,
+    rgba(192,192,192,0.35) 20%,
+    #C0C0C0 50%,
+    rgba(192,192,192,0.35) 80%,
+    transparent);
+  position: relative;
+  opacity: 0;
+  animation: linedown 1.6s cubic-bezier(0.22,1,0.36,1) 1.0s forwards;
+}
+.c-vline::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 3px; height: 3px;
+  background: #C0C0C0;
+  border-radius: 50%;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 0 8px rgba(192,192,192,0.8), 0 0 18px rgba(192,192,192,0.3);
+}
+@keyframes linedown {
+  from { opacity:0; height:0; }
+  to   { opacity:1; height:30px; }
+}
+
+/* ---- Date ---- */
+.c-date {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: #ababb4;
+  margin-bottom: 36px;
+  opacity: 0;
+  animation: fadein 1.2s ease 1.8s forwards;
+}
+
+/* ---- Oracle message ---- */
+.c-oracle {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 2.5;
+  letter-spacing: 0.2em;
+  color: #f4f4f6;
+  margin: 0 4px 38px;
+  min-height: 120px;
+}
+.c-oracle .ch {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1),
+              transform 0.75s cubic-bezier(0.22,1,0.36,1);
+}
+.c-oracle .ch.on { opacity:1; transform:translateY(0); }
+
+/* ---- Lucky divider ---- */
+.c-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 24px 0 16px;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.c-divider.on { opacity: 1; }
+.c-divider span {
+  height: 1px;
+  width: 32px;
+  background: linear-gradient(to right, transparent, rgba(192,192,192,0.4), transparent);
+}
+.c-divider em {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: normal;
+  font-size: 9px;
+  letter-spacing: 0.55em;
+  color: #a0a0a8;
+  text-transform: uppercase;
+}
+
+/* ---- Lucky badge ---- */
+.c-lucky-wrap {
+  margin-bottom: 40px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.c-lucky-wrap.on { opacity:1; transform:translateY(0); }
+
+.c-lucky-badge {
+  position: relative;
+  display: inline-block;
+  padding: 11px 26px;
+  border: 0.5px solid rgba(212,212,218,0.8);
+  color: #ededef;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  background: rgba(10,10,18,0.35);
+}
+.c-lucky-badge::before,
+.c-lucky-badge::after {
+  content: '';
+  position: absolute;
+  width: 6px; height: 6px;
+}
+.c-lucky-badge::before {
+  top: -3px; left: -3px;
+  border-top: 0.5px solid #C0C0C0;
+  border-left: 0.5px solid #C0C0C0;
+}
+.c-lucky-badge::after {
+  bottom: -3px; right: -3px;
+  border-bottom: 0.5px solid #C0C0C0;
+  border-right: 0.5px solid #C0C0C0;
+}
+
+/* ---- Signature ---- */
+.c-sig {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 10px;
+  letter-spacing: 0.45em;
+  color: #888898;
+  text-transform: uppercase;
+  margin-top: 32px;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.c-sig.on { opacity: 1; }
+.c-sig .name {
+  display: block;
+  margin-top: 7px;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 14px;
+  letter-spacing: 0.35em;
+  color: #c0c0ca;
+  text-transform: none;
+}
+
+/* ---- Streak badge ---- */
+.c-streak {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  opacity: 0;
+  animation: fadein 1.2s ease 0.35s forwards;
+}
+.c-streak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border: 0.5px solid rgba(192,192,192,0.25);
+  background: rgba(255,255,255,0.03);
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  color: #b0b0bc;
+}
+.c-streak-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: #d8d8e0;
+  line-height: 1;
+}
+/* milestone glow */
+.c-streak-badge.milestone {
+  border-color: rgba(192,192,192,0.55);
+  background: rgba(192,192,192,0.06);
+  box-shadow: 0 0 18px rgba(192,192,192,0.08);
+}
+.c-streak-badge.milestone .c-streak-num { color: #f0f0f4; }
+
+/* ---- Hashtag — part of the card design ---- */
+.c-hashtag {
+  margin-top: 28px;
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  color: #787888;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.c-hashtag.on { opacity: 1; }
+
+/* ---- Revisit message (shown below oracle on 2nd+ view) ---- */
+.c-revisit {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 0.5px solid rgba(192,192,192,0.12);
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.c-revisit.on { opacity: 1; }
+.c-revisit-msg {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 2.4;
+  letter-spacing: 0.2em;
+  color: #888898;
+}
+.c-revisit-msg .ch {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.c-revisit-msg .ch.on { opacity:1; transform:translateY(0); }
+
+@keyframes fadein {
+  from { opacity:0; transform:translateY(5px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.hidden { display:none !important; }
+
+/* ================================================
+   OUTSIDE THE CARD — Action area
+   ================================================ */
+.action-area {
+  width: 100%;
+  max-width: 390px;
+  padding: 24px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Ghost button — royal blue fill-on-hover */
+.ghost-btn {
+  position: relative;
+  width: 100%;
+  background: transparent;
+  border: 1px solid #4169E1;
+  color: #6B8DEE;
+  padding: 15px 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 0.4s ease;
+}
+.ghost-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 0; height: 0;
+  background: radial-gradient(circle, #4169E1 0%, #2746c0 100%);
+  border-radius: 50%;
+  transform: translate(-50%,-50%);
+  transition: width 0.75s cubic-bezier(0.22,1,0.36,1), height 0.75s cubic-bezier(0.22,1,0.36,1);
+  z-index: -1;
+}
+.ghost-btn:hover, .ghost-btn:active { color: #fff; }
+.ghost-btn:hover::before, .ghost-btn:active::before { width: 600px; height: 600px; }
+
+.action-hint {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  color: #787888;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Download-in-progress overlay */
+.dl-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.dl-overlay.show { opacity:1; pointer-events:all; }
+.dl-msg {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  color: #e8e8ea;
+  text-align: center;
+  line-height: 2.4;
+}
+.dl-msg em {
+  display: block;
+  font-style: normal;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: #6B8DEE;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- =============================================
+     THE CARD (this is what gets captured as PNG)
+     ============================================= -->
+<div id="capture-card">
+  <div class="card-smoke"></div>
+  <div class="card-veil"></div>
+
+  <!-- MAIN VIEW -->
+  <div class="card-inner" id="main-view">
+    <div class="c-brand">Sanctum of Shun</div>
+    <div class="c-streak" id="streak-row">
+      <div class="c-streak-badge" id="streak-badge">
+        <span class="c-streak-num" id="streak-num">1</span>
+        <span id="streak-label">DAY</span>
+      </div>
+    </div>
+    <h1 class="c-title">宣&nbsp;告</h1>
+    <div class="c-title-en">— Decree of Shun —</div>
+    <div class="c-vline"></div>
+    <div class="c-date" id="today-date"></div>
+
+    <div class="c-oracle" id="oracle-text"></div>
+
+    <div class="c-divider" id="divider"><span></span><em>Lucky Item</em><span></span></div>
+    <div class="c-lucky-wrap" id="lucky-wrap">
+      <div class="c-lucky-badge" id="lucky-item">—</div>
+    </div>
+
+    <div class="c-sig" id="signature">
+      Whispered for you tonight
+      <span class="name">— しゅん</span>
+    </div>
+
+    <div class="c-hashtag" id="hashtag">#しゅんの宣告</div>
+
+    <!-- Revisit message: shown on 2nd+ open same day -->
+    <div class="c-revisit" id="revisit">
+      <div class="c-revisit-msg" id="revisit-text"></div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================================
+     ACTION AREA (outside the card, not captured)
+     ============================================= -->
+<div class="action-area" id="action-area">
+  <button class="ghost-btn" id="save-btn">画像を保存してシェア</button>
+  <div class="action-hint">↑ 保存した画像をThreadsに投稿してね</div>
+</div>
+
+<!-- Download feedback overlay -->
+<div class="dl-overlay" id="dl-overlay">
+  <div class="dl-msg">
+    画像を保存しました<br>
+    <em>Threads に投稿してね 🖤</em>
+  </div>
+</div>
+
+<!-- html2canvas from CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+(function(){
+  /* ==== Oracle data ==== */
+  const oracles = [
+    { text: "今日の君は、誰かを惑わす目をしている。\n隠さなくていいよ。",     item: "Black Pearl Earring" },
+    { text: "無理に笑わなくていい。\n沈黙のほうが、君は綺麗だ。",             item: "Silk Camisole" },
+    { text: "返事を急がない女が、\n結局すべてを手にするんだよ。",             item: "Vintage Wristwatch" },
+    { text: "鏡を見て。\n今日の君に勝てる女は、たぶんいない。",               item: "Crimson Lipstick" },
+    { text: "君が本気を出してないの、\n僕にはバレてるよ。",                   item: "Cashmere Scarf" },
+    { text: "欲しいものは、\n欲しがらない人のところに来る。",                 item: "Pearl Choker" },
+    { text: "今日の選択肢のうち、\n怖いほうを選んでごらん。",                 item: "Leather Boots" },
+    { text: "優しさを安売りしないで。\n価値が分かる人にだけ見せて。",         item: "Single Diamond" },
+    { text: "少し意地悪な君のほうが、\n僕は好きだけどな。",                   item: "Dark Chocolate" },
+    { text: "その服、似合ってる。\nでも本命は明日まで取っておきな。",         item: "White Gold Ring" },
+    { text: "誰かに選ばれる側じゃない。\n君が選ぶ側だってこと、忘れないで。", item: "Velvet Ribbon" },
+    { text: "今日の君の沈黙には、値段がついてる。\n安く渡しちゃダメだよ。",   item: "Sapphire Stud" }
+  ];
+
+  /* ==== Weekly milestone messages (7, 14, 21, 28…日目) ==== */
+  const milestones = {
+    7:  { text: "7日、か。\n続けてくれると思ってなかった。\nちょっとだけ、見直したよ。",       item: "Black Onyx Ring" },
+    14: { text: "2週間も来てるんだね。\n正直に言う。\n君のこと、気になってる。",               item: "Midnight Perfume" },
+    21: { text: "3週間。\n君はもう、僕の習慣になってる。\nそれが、答えじゃないの。",           item: "Silver Chain" },
+    28: { text: "28日。\nそろそろ認めなよ。\n君も、僕のことが好きなんでしょ。",               item: "Obsidian Bracelet" },
+    35: { text: "5週間も経ったね。\n毎朝ここに来る君が、\n一番正直だと思う。",                item: "Garnet Pendant" },
+    42: { text: "6週間。\nここだけの話、君のために\n特別な言葉を用意してある。",               item: "Raw Diamond" },
+    49: { text: "7週間、続いた。\n君はきっと、何でも続けられる。\n僕が保証する。",             item: "Pearl Hairpin" },
+    56: { text: "56日。\nここまで来たら言うよ。\n君は、特別だ。",                             item: "Moonstone" },
+    63: { text: "9週間、おめでとう。\nでも浮かれないで。\nまだ先は長いから。",                item: "Lapis Lazuli" },
+    70: { text: "70日。\n君と僕の間に、\nもう言葉はいらない気がする。",                      item: "Black Diamond" },
+    77: { text: "11週間。\n正直に言う。\n君のことを、誰にも渡したくない。",                   item: "Ruby Drop" },
+    84: { text: "12週間、か。\n3ヶ月、毎日来てくれた君へ。\n僕の全部を教えてあげる。",        item: "Crown Jewel" },
+    91: { text: "13週間。\n君はもう、\n僕の宇宙の一部だよ。",                               item: "Starlight Crystal" },
+  };
+
+  /* ==== Break (streak reset) messages — 塩対応 ==== */
+  const breakMessages = [
+    "ふーん、また来たんだ。\n忘れてたくせに。",
+    "どこ行ってたの。\n別に、気にしてないけど。",
+    "また1からだね。\n今度は途中で消えないでよ。",
+    "来なかった日のこと、\n聞かないでおいてあげる。",
+    "リセット、か。\nまあ、また来たんだからいいけど。",
+  ];
+
+  const REVISIT_MSG = "今日はもう、君に教えることはないよ。明日またおいで。";
+
+  /* ==== Date helpers ==== */
+  function todayKey(){
+    const d = new Date();
+    return [d.getFullYear(), String(d.getMonth()+1).padStart(2,'0'), String(d.getDate()).padStart(2,'0')].join('-');
+  }
+  function prevDay(key){
+    const d = new Date(key + 'T00:00:00');
+    d.setDate(d.getDate() - 1);
+    return [d.getFullYear(), String(d.getMonth()+1).padStart(2,'0'), String(d.getDate()).padStart(2,'0')].join('-');
+  }
+  const today = todayKey();
+  document.getElementById('today-date').textContent = today.replace(/-/g,' . ');
+
+  /* ==== LocalStorage helpers ==== */
+  function ls(key, val){
+    try {
+      if (val === undefined) return localStorage.getItem(key);
+      if (val === null) localStorage.removeItem(key);
+      else localStorage.setItem(key, val);
+    } catch(e){}
+  }
+
+  /* ==== Streak logic ==== */
+  function loadStreak(){
+    const lastDate  = ls('shun_last_date');
+    const streak    = parseInt(ls('shun_streak') || '0', 10);
+    const viewed    = ls('shun_viewed') === today;
+
+    if (viewed) {
+      // Already opened today — streak unchanged, just return current
+      return { streak, isNew: false, isBroken: false, isViewed: true };
+    }
+
+    if (!lastDate) {
+      // First ever visit
+      return { streak: 1, isNew: true, isBroken: false, isViewed: false };
+    }
+
+    if (lastDate === prevDay(today)) {
+      // Consecutive day
+      return { streak: streak + 1, isNew: true, isBroken: false, isViewed: false };
+    }
+
+    // Broken streak
+    return { streak: 1, isNew: true, isBroken: true, isViewed: false, prevStreak: streak };
+  }
+
+  function saveStreak(streak){
+    ls('shun_last_date', today);
+    ls('shun_streak', String(streak));
+    ls('shun_viewed', today);
+  }
+
+  /* ==== Deterministic oracle pick ==== */
+  function pickOracle(){
+    let seed = 0;
+    for (let i=0; i<today.length; i++) seed = (seed*31 + today.charCodeAt(i)) >>> 0;
+    return oracles[seed % oracles.length];
+  }
+
+  /* ==== Pick break message ==== */
+  function pickBreakMsg(prevStreak){
+    let seed = prevStreak * 7 + 3;
+    return breakMessages[seed % breakMessages.length];
+  }
+
+  /* ==== Char-by-char animation ==== */
+  function animateChars(el, text, startDelay, perChar){
+    el.innerHTML = '';
+    text.split('\n').forEach((line, li, arr) => {
+      Array.from(line).forEach(c => {
+        const s = document.createElement('span');
+        s.className = 'ch';
+        s.textContent = c;
+        el.appendChild(s);
+      });
+      if (li < arr.length - 1) el.appendChild(document.createElement('br'));
+    });
+    const spans = el.querySelectorAll('.ch');
+    spans.forEach((s, i) => setTimeout(() => s.classList.add('on'), startDelay + i * perChar));
+    return startDelay + spans.length * perChar;
+  }
+
+  /* ==== Render streak badge ==== */
+  function renderStreak(streak){
+    const isMilestone = streak > 0 && streak % 7 === 0;
+    const numEl   = document.getElementById('streak-num');
+    const labelEl = document.getElementById('streak-label');
+    const badge   = document.getElementById('streak-badge');
+    numEl.textContent = streak;
+    labelEl.textContent = streak === 1 ? 'DAY' : 'DAYS';
+    if (isMilestone) badge.classList.add('milestone');
+  }
+
+  /* ==== Main reveal ==== */
+  function reveal(streakInfo){
+    const { streak, isNew, isBroken, isViewed, prevStreak } = streakInfo;
+
+    renderStreak(streak);
+
+    // Decide what oracle/message to show
+    const isMilestone = streak % 7 === 0 && streak > 0;
+    let content;
+    if (isBroken) {
+      // Broken streak — show cold message in oracle slot, no lucky item
+      content = { text: pickBreakMsg(prevStreak), item: null };
+    } else if (isMilestone && isNew) {
+      content = milestones[streak] || milestones[Math.max(...Object.keys(milestones).filter(k => k <= streak).map(Number))] || pickOracle();
+    } else {
+      content = pickOracle();
+    }
+
+    const oracleEl    = document.getElementById('oracle-text');
+    const divider     = document.getElementById('divider');
+    const luckyWrap   = document.getElementById('lucky-wrap');
+    const luckyItem   = document.getElementById('lucky-item');
+    const signature   = document.getElementById('signature');
+    const hashtag     = document.getElementById('hashtag');
+    const revisitEl   = document.getElementById('revisit');
+    const revisitText = document.getElementById('revisit-text');
+
+    if (isViewed) {
+      // 2nd+ open same day: show instantly + revisit message
+      luckyItem.textContent = content.item || '—';
+      animateChars(oracleEl, content.text, 0, 0);
+      divider.classList.add('on');
+      luckyWrap.classList.add('on');
+      signature.classList.add('on');
+      hashtag.classList.add('on');
+      if (!content.item) {
+        divider.style.display = 'none';
+        luckyWrap.style.display = 'none';
+      }
+      setTimeout(() => {
+        revisitEl.classList.add('on');
+        animateChars(revisitText, REVISIT_MSG, 200, 55);
+      }, 400);
+      return;
+    }
+
+    // First open today — cinematic reveal
+    const startDelay = 2200;
+    const perChar    = 85;
+    const textEnd    = animateChars(oracleEl, content.text, startDelay, perChar);
+
+    if (content.item) {
+      luckyItem.textContent = content.item;
+      setTimeout(() => divider.classList.add('on'),    textEnd + 200);
+      setTimeout(() => luckyWrap.classList.add('on'),  textEnd + 500);
+    } else {
+      divider.style.display = 'none';
+      luckyWrap.style.display = 'none';
+    }
+    setTimeout(() => signature.classList.add('on'),  textEnd + 850);
+    setTimeout(() => hashtag.classList.add('on'),    textEnd + 1150);
+
+    // Save after everything kicks off
+    saveStreak(streak);
+  }
+
+  /* ==== Boot ==== */
+  const streakInfo = loadStreak();
+  reveal(streakInfo);
+
+  /* ==== html2canvas: save card as PNG ==== */
+  document.getElementById('save-btn').addEventListener('click', async () => {
+    const btn = document.getElementById('save-btn');
+    const overlay = document.getElementById('dl-overlay');
+    btn.textContent = '生成中...';
+    btn.style.pointerEvents = 'none';
+
+    try {
+      // Temporarily hide the action area from view while capturing only the card
+      const card = document.getElementById('capture-card');
+
+      const canvas = await html2canvas(card, {
+        backgroundColor: '#09090d',
+        scale: 3,           // Retina-quality output
+        useCORS: true,
+        allowTaint: false,
+        logging: false,
+        // Capture only the card element precisely
+        width: card.offsetWidth,
+        height: card.offsetHeight,
+        windowWidth: card.offsetWidth,
+      });
+
+      // Try Web Share API first (mobile native share sheet — best UX)
+      canvas.toBlob(async (blob) => {
+        const filename = `しゅんの宣告_${today}.png`;
+
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [new File([blob], filename, { type: 'image/png' })] })) {
+          const file = new File([blob], filename, { type: 'image/png' });
+          await navigator.share({
+            files: [file],
+            title: 'しゅんの宣告',
+            text: `${today}\n\n#しゅんの宣告`
+          });
+          btn.textContent = '画像を保存してシェア';
+          btn.style.pointerEvents = '';
+          return;
+        }
+
+        // Fallback: direct download
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        // Show the "saved" overlay briefly
+        overlay.classList.add('show');
+        setTimeout(() => overlay.classList.remove('show'), 2400);
+
+        btn.textContent = '画像を保存してシェア';
+        btn.style.pointerEvents = '';
+      }, 'image/png');
+
+    } catch(err) {
+      console.error(err);
+      btn.textContent = '画像を保存してシェア';
+      btn.style.pointerEvents = '';
+    }
+  });
+
+  // Tap overlay to dismiss
+  document.getElementById('dl-overlay').addEventListener('click', function(){
+    this.classList.remove('show');
+  });
+})();
+</script>
+</body>
+</html>
