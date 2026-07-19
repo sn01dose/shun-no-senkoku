@@ -4,6 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#050507">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="しゅんの宣告">
+<meta property="og:title" content="しゅんの宣告">
+<meta property="og:description" content="悩める君に、しゅんが今日のひと言を宣告する。毎日0時更新。">
+<meta property="og:url" content="https://sn01dose.github.io/shun-no-senkoku/">
+<meta property="og:image" content="https://sn01dose.github.io/shun-no-senkoku/og.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <title>しゅんの宣告</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -444,6 +456,287 @@ html, body {
   margin-top: 8px;
   text-transform: uppercase;
 }
+/* ---- Anniversary (出会って◯日目) ---- */
+.c-anniv {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: #8a8a96;
+  margin: -8px 0 16px;
+  opacity: 0;
+  animation: fadein 1.2s ease 0.5s forwards;
+}
+
+/* ---- Gold decree (金の宣告) ---- */
+.c-gold-label {
+  display: none;
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.5em;
+  color: #e6c87a;
+  margin-bottom: 14px;
+  opacity: 0;
+  animation: fadein 1.4s ease 0.4s forwards;
+}
+.gold .c-gold-label { display: block; }
+#capture-card.gold { box-shadow: inset 0 0 0 0.5px rgba(230,200,122,0.4); }
+.gold .c-title { color: #f6ead0; }
+.gold .c-vline {
+  background: linear-gradient(to bottom, transparent,
+    rgba(230,200,122,0.4) 20%, #E6C87A 50%, rgba(230,200,122,0.4) 80%, transparent);
+}
+.gold .c-vline::after {
+  background: #E6C87A;
+  box-shadow: 0 0 8px rgba(230,200,122,0.85), 0 0 18px rgba(230,200,122,0.35);
+}
+.gold .c-lucky-badge { border-color: rgba(230,200,122,0.85); color: #f3e9cf; }
+.gold .c-lucky-badge::before { border-color: #E6C87A; }
+.gold .c-lucky-badge::after  { border-color: #E6C87A; }
+.gold .c-streak-badge { border-color: rgba(230,200,122,0.5); }
+.gold .c-streak-num { color: #f0e2b8; }
+.gold .card-smoke {
+  background:
+    radial-gradient(ellipse 320px 200px at 22% 20%, rgba(240,220,160,0.06), transparent 70%),
+    radial-gradient(ellipse 260px 190px at 78% 70%, rgba(230,200,122,0.05), transparent 70%),
+    radial-gradient(ellipse 400px 280px at 50% 105%, rgba(200,170,110,0.07), transparent 70%);
+}
+
+/* ---- Moon note (満月・新月) ---- */
+.c-moon {
+  display: none;
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  color: #b9c2d8;
+  margin: -24px 0 30px;
+  opacity: 0;
+  animation: fadein 1.4s ease 2.0s forwards;
+}
+.c-moon.on { display: block; }
+
+/* ---- Letter heading (〇〇へ) ---- */
+.c-toname {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: #b4b4be;
+  margin-bottom: 14px;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.c-toname.on { opacity: 1; }
+
+/* ---- Name prompt ---- */
+.c-namebox { display: none; margin: 4px 0 30px; }
+.c-namebox.on { display: block; animation: fadein 1s ease 0.4s both; }
+.c-name-q {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 2.3;
+  letter-spacing: 0.2em;
+  color: #ececee;
+  margin-bottom: 20px;
+}
+.c-name-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(192,192,192,0.4);
+  border-radius: 0;
+  color: #f2f2f4;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 16px;
+  letter-spacing: 0.15em;
+  text-align: center;
+  padding: 8px 4px;
+  width: 190px;
+  outline: none;
+}
+.c-name-input:focus { border-bottom-color: #C0C0C0; }
+.c-name-actions { margin-top: 22px; display: flex; gap: 10px; justify-content: center; align-items: center; }
+.c-name-btn {
+  border: 0.5px solid rgba(212,212,218,0.8);
+  background: rgba(10,10,18,0.35);
+  color: #ededef;
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  padding: 10px 24px;
+  cursor: pointer;
+}
+.c-name-skip {
+  border: none;
+  background: none;
+  color: #787888;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  padding: 10px 8px;
+}
+
+/* ---- Night note (おやすみ宣告) ---- */
+.c-night {
+  display: none;
+  margin-top: 30px;
+  padding-top: 26px;
+  border-top: 0.5px solid rgba(185,194,216,0.14);
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.c-night.show { display: block; }
+.c-night.on { opacity: 1; }
+.c-night-msg {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 2.4;
+  letter-spacing: 0.2em;
+  color: #9aa2b8;
+}
+.c-night-msg .ch {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.c-night-msg .ch.on { opacity: 1; transform: translateY(0); }
+
+/* ---- Album button ---- */
+.ghost-sub {
+  border-color: rgba(192,192,192,0.35);
+  color: #a8a8b4;
+}
+.ghost-sub::before {
+  background: radial-gradient(circle, #55555f 0%, #2c2c34 100%);
+}
+
+/* ---- Album overlay ---- */
+.album {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(5,5,9,0.97);
+  display: none;
+  flex-direction: column;
+  padding: 28px 22px 20px;
+}
+.album.show { display: flex; }
+.album-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  max-width: 390px;
+  width: 100%;
+  margin: 0 auto 6px;
+}
+.album-title {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 15px;
+  letter-spacing: 0.35em;
+  color: #e8e8ea;
+}
+.album-close {
+  border: none;
+  background: none;
+  color: #787888;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  cursor: pointer;
+  padding: 6px;
+}
+.album-list {
+  max-width: 390px;
+  width: 100%;
+  margin: 0 auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.album-entry {
+  padding: 22px 4px;
+  border-bottom: 0.5px solid rgba(192,192,192,0.1);
+}
+.album-date {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  color: #8a8a96;
+  margin-bottom: 10px;
+}
+.album-entry.gold .album-date { color: #e6c87a; }
+.album-text {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 2.2;
+  letter-spacing: 0.15em;
+  color: #dcdce2;
+  white-space: pre-line;
+}
+.album-item {
+  margin-top: 10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  color: #8a8a96;
+  text-transform: uppercase;
+}
+.album-empty {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 2.4;
+  letter-spacing: 0.18em;
+  color: #9a9aa4;
+  text-align: center;
+  padding: 60px 10px;
+  white-space: pre-line;
+}
+
+/* ---- Tomorrow teaser (outside the card) ---- */
+.tomorrow {
+  margin-top: 2px;
+  text-align: center;
+  opacity: 0;
+  animation: fadein 1.2s ease 2.8s forwards;
+}
+.tomorrow-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9px;
+  letter-spacing: 0.5em;
+  color: #63636f;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.tomorrow-text {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: #9a9aa6;
+  filter: blur(2.5px);
+  opacity: 0.75;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ---- Add-to-home-screen hint ---- */
+.a2hs {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: #63636f;
+  text-align: center;
+  margin-top: 4px;
+}
 </style>
 </head>
 <body>
@@ -464,10 +757,26 @@ html, body {
         <span id="streak-label">DAY</span>
       </div>
     </div>
+    <div class="c-anniv" id="anniv"></div>
+    <div class="c-gold-label">― 金の宣告 ―</div>
     <h1 class="c-title">宣&nbsp;告</h1>
     <div class="c-title-en">— Decree of Shun —</div>
     <div class="c-vline"></div>
     <div class="c-date" id="today-date"></div>
+
+    <div class="c-moon" id="moon-note"></div>
+
+    <div class="c-namebox" id="name-view">
+      <div class="c-name-q" id="name-q">君のこと、<br>なんて呼べばいい？</div>
+      <input class="c-name-input" id="name-input" type="text" maxlength="12"
+             autocomplete="off" autocapitalize="off" placeholder="">
+      <div class="c-name-actions" id="name-actions">
+        <button class="c-name-btn" id="name-ok">教える</button>
+        <button class="c-name-skip" id="name-skip">今はいい</button>
+      </div>
+    </div>
+
+    <div class="c-toname" id="to-name"></div>
 
     <div class="c-oracle" id="oracle-text"></div>
 
@@ -487,6 +796,11 @@ html, body {
     <div class="c-revisit" id="revisit">
       <div class="c-revisit-msg" id="revisit-text"></div>
     </div>
+
+    <!-- Night note: 22時以降のおやすみ宣告 -->
+    <div class="c-night" id="night-note">
+      <div class="c-night-msg" id="night-text"></div>
+    </div>
   </div>
 </div>
 
@@ -495,7 +809,15 @@ html, body {
      ============================================= -->
 <div class="action-area" id="action-area">
   <button class="ghost-btn" id="save-btn">画像を保存してシェア</button>
+  <button class="ghost-btn ghost-sub" id="album-btn">これまでの言葉</button>
   <div class="action-hint">↑ 保存した画像をThreadsに投稿してね</div>
+
+  <div class="tomorrow" id="tomorrow">
+    <div class="tomorrow-label">Next Decree — 明日 0:00</div>
+    <div class="tomorrow-text"><span id="tomorrow-snippet"></span></div>
+  </div>
+
+  <div class="a2hs" id="a2hs">毎日来るつもりなら、ホーム画面に置いておきなよ。</div>
 </div>
 
 <!-- Download feedback overlay -->
@@ -504,6 +826,15 @@ html, body {
     画像を保存しました<br>
     <em>Threads に投稿してね 🖤</em>
   </div>
+</div>
+
+<!-- Album overlay -->
+<div class="album" id="album">
+  <div class="album-head">
+    <div class="album-title">言葉のアルバム</div>
+    <button class="album-close" id="album-close">閉じる</button>
+  </div>
+  <div class="album-list" id="album-list"></div>
 </div>
 
 <!-- html2canvas from CDN -->
@@ -523,7 +854,31 @@ html, body {
     { text: "少し意地悪な君のほうが、\n僕は好きだけどな。",                   item: "Dark Chocolate" },
     { text: "その服、似合ってる。\nでも本命は明日まで取っておきな。",         item: "White Gold Ring" },
     { text: "誰かに選ばれる側じゃない。\n君が選ぶ側だってこと、忘れないで。", item: "Velvet Ribbon" },
-    { text: "今日の君の沈黙には、値段がついてる。\n安く渡しちゃダメだよ。",   item: "Sapphire Stud" }
+    { text: "今日の君の沈黙には、値段がついてる。\n安く渡しちゃダメだよ。",   item: "Sapphire Stud" },
+    { text: "既読なんて待たなくていい。\n待たせる側に、なりなよ。",           item: "Gold Anklet" },
+    { text: "疲れた顔も悪くないけど、\n今日は早く寝な。命令ね。",             item: "Lavender Oil" },
+    { text: "他の子と比べてる時間が、\n一番もったいないよ。",                 item: "Opal Ring" },
+    { text: "泣きたい日は、泣けばいい。\n泣いた後の君は、強いから。",         item: "Linen Handkerchief" },
+    { text: "頑張りすぎだよ。\n今日くらい、僕に預けて。",                     item: "Chamomile Tea" },
+    { text: "君の「大丈夫」が嘘なこと、\n僕には分かってるからね。",           item: "Rose Quartz" },
+    { text: "迷わせる相手なら、やめときな。\n本物は、迷わせない。",           item: "Compass Charm" },
+    { text: "追いかけるのは今日で終わり。\n明日からは、追わせる側。",         item: "Red Sole Heels" },
+    { text: "その涙は安くないんだよ。\n流す相手は、選びなさい。",             item: "Waterproof Mascara" },
+    { text: "誰にも気づかれない努力も、\n僕はちゃんと見てるよ。",             item: "Silver Bookmark" },
+    { text: "「いい人」を卒業した日から、\n人生は面白くなる。",               item: "Leather Gloves" },
+    { text: "返信は明日でいい。\n今夜は君だけの時間にして。",                 item: "Silk Pillowcase" },
+    { text: "君を待たせるだけの男に、\n君の時間は渡さないで。",               item: "Antique Clock" },
+    { text: "今日は運が悪いんじゃない。\n運を、溜めてる日。",                 item: "Four-leaf Charm" },
+    { text: "愛想笑いは今日で在庫切れ。\n本物の笑顔だけ、残しな。",           item: "Matte Rouge" },
+    { text: "自信がない日ほど、\n背筋だけは伸ばして歩いて。",                 item: "Pearl Barrette" },
+    { text: "君の優しさに慣れた人には、\n少しの不在を教えてあげて。",         item: "Gold Bangle" },
+    { text: "選ばれなかったんじゃない。\n相手に、見る目がなかった。",         item: "Crystal Glass" },
+    { text: "秘密をひとつ、持ちなよ。\n謎のある女は、強い。",                 item: "Perfume Atomizer" },
+    { text: "今日は白いものを身につけて。\n流れが、変わるから。",             item: "White Silk Scarf" },
+    { text: "「私なんて」って言うたび、\n僕が減点してるからね。",             item: "Citrine Stone" },
+    { text: "焦らなくていいよ。\n主役は、最後に登場する。",                   item: "Velvet Pouch" },
+    { text: "昨日の失敗の話？\nごめん、もう忘れちゃった。",                   item: "Mint Chocolate" },
+    { text: "その夢、口に出してごらん。\n笑う人は、置いていけばいい。",       item: "Fountain Pen" }
   ];
 
   /* ==== Weekly milestone messages (7, 14, 21, 28…日目) ==== */
@@ -543,81 +898,220 @@ html, body {
     91: { text: "13週間。\n君はもう、\n僕の宇宙の一部だよ。",                               item: "Starlight Crystal" },
   };
 
-  /* ==== Break (streak reset) messages — 塩対応 ==== */
-  const breakMessages = [
-    "ふーん、また来たんだ。\n忘れてたくせに。",
-    "どこ行ってたの。\n別に、気にしてないけど。",
-    "また1からだね。\n今度は途中で消えないでよ。",
-    "来なかった日のこと、\n聞かないでおいてあげる。",
-    "リセット、か。\nまあ、また来たんだからいいけど。",
+  /* ==== Comeback messages — 久しぶりでも、あたたかく迎える ==== */
+  const comebackMessages = [
+    "おかえり。\n何も聞かないから、\nまた今日から始めよう。",
+    "久しぶりだね。\n君の席は、\nずっと空けておいたよ。",
+    "戻ってきてくれて、嬉しい。\n…今のは、独り言ね。",
+    "離れてた日も、\n君の分の言葉は用意してた。\nおかえり。",
   ];
 
-  const REVISIT_MSG = "今日はもう、君に教えることはないよ。明日またおいで。";
+  /* ==== Grace (数日空けても継続) messages ==== */
+  const graceMessages = [
+    "少し空いたね。\nでも大丈夫、\nちゃんと続いてるよ。",
+    "何日か見なかったけど、\n君の記録は守っておいた。\n僕、律儀でしょ。",
+    "忙しかった？\nいいよ、ここは君のペースで\n来ればいい場所だから。"
+  ];
+
+  /* ==== Golden decree（低確率の特別回） ==== */
+  const goldenOracles = [
+    { text: "金の宣告。\n今日の君は、何をしても\n輝いて見える日。",             item: "24K Gold Hoop" },
+    { text: "おめでとう。\n今日は運が君の味方をする。\n大胆にいきな。",         item: "Champagne Glass" },
+    { text: "宝くじみたいな日。\n欲しいものを、ひとつだけ\n口に出してごらん。", item: "Gold Leaf Chocolat" },
+    { text: "今日の君には、\n誰も敵わない。\n僕も含めて、ね。",                 item: "Tiara Motif Ring" },
+    { text: "特別な日に来たね。\n君の願い、ひとつだけ\n僕が預かるよ。",         item: "Golden Key Charm" }
+  ];
+
+  /* ==== 満月・新月の特別宣告 ==== */
+  const fullMoonOracles = [
+    { text: "今夜は満月。\n手放したいものを、\nひとつ決めておきな。",           item: "Silver Mirror" },
+    { text: "満月の夜は、感情が満ちる。\n泣きたくなったら、\n月のせいにしていい。", item: "White Candle" },
+    { text: "今夜は満月。\n願いごとをひとつだけ、\n聞いてあげる。",             item: "Moon Motif Necklace" }
+  ];
+  const newMoonOracles = [
+    { text: "今夜は新月。\n新しく始めることに、\n一番いい夜。",                 item: "Blank Notebook" },
+    { text: "新月は、種を蒔く夜。\n小さな決意をひとつ、\nここに置いていきな。", item: "Glass Ink Pen" },
+    { text: "今夜は新月。\n誰にも言わない目標を、\nひとつだけ持ちな。",         item: "Black Velvet Box" }
+  ];
+
+  /* ==== 記念日（出会って◯日）の特別宣告 ==== */
+  const annivOracles = {
+    50:  { text: "出会って50日。\n君が来る時間が、\n僕の楽しみになってる。",     item: "Half Moon Charm" },
+    100: { text: "出会って100日。\n君がいるのが、\n当たり前になってきた。",     item: "Eternity Ring" },
+    183: { text: "出会って半年。\n季節が変わっても、\n君はここにいてくれた。",   item: "Preserved Rose" },
+    365: { text: "出会って1年。\n365日ぶんの言葉、\n全部本気だったよ。",         item: "Promise Ring" },
+    730: { text: "出会って2年。\nもう君のいない毎日は、\n思い出せないよ。",       item: "Infinity Necklace" }
+  };
+
+  /* ==== おやすみ宣告（22時〜4時） ==== */
+  const nightLines = [
+    "もう遅い時間だね。\n今日はここまで。おやすみ。",
+    "スマホを置いて、目を閉じな。\nおやすみ。いい夢を。",
+    "夜更かしは肌に出るよ。\n……心配してるだけ。おやすみ。",
+    "今日も一日、お疲れさま。\nゆっくり休んで。おやすみ。"
+  ];
+
+  function revisitMsg(){
+    return state.n
+      ? state.n + "、今日はもう教えることはないよ。明日またおいで。"
+      : "今日はもう、君に教えることはないよ。明日またおいで。";
+  }
+
+  /* ==== 設定 ==== */
+  const PERSONALIZED = false; // true にすると一人ひとり違う宣告になる（端末ごとのシード）
+  const GRACE_DAYS   = 3;     // 何日までの空白なら連続記録を続けてあげるか
 
   /* ==== Date helpers ==== */
-  function todayKey(){
-    const d = new Date();
+  function dateKeyOf(d){
     return [d.getFullYear(), String(d.getMonth()+1).padStart(2,'0'), String(d.getDate()).padStart(2,'0')].join('-');
   }
-  function prevDay(key){
+  function todayKey(){ return dateKeyOf(new Date()); }
+  function shiftDay(key, n){
     const d = new Date(key + 'T00:00:00');
-    d.setDate(d.getDate() - 1);
-    return [d.getFullYear(), String(d.getMonth()+1).padStart(2,'0'), String(d.getDate()).padStart(2,'0')].join('-');
+    d.setDate(d.getDate() + n);
+    return dateKeyOf(d);
+  }
+  function daysBetween(a, b){
+    return Math.round((new Date(b + 'T00:00:00') - new Date(a + 'T00:00:00')) / 86400000);
   }
   const today = todayKey();
   document.getElementById('today-date').textContent = today.replace(/-/g,' . ');
 
-  /* ==== LocalStorage helpers ==== */
-  function ls(key, val){
+  /* ==== 二重ストレージ（localStorage + cookie の相互補完） ====
+     アプリ内ブラウザ等で片方が消えても、もう片方から自動復元する */
+  const STATE_KEY = 'shun_state';
+
+  function parseJSON(s){ try { return s ? JSON.parse(s) : null; } catch(e){ return null; } }
+  function readFromLS(){
+    try { return parseJSON(localStorage.getItem(STATE_KEY)); } catch(e){ return null; }
+  }
+  function readFromCookie(){
     try {
-      if (val === undefined) return localStorage.getItem(key);
-      if (val === null) localStorage.removeItem(key);
-      else localStorage.setItem(key, val);
+      const m = document.cookie.match(/(?:^|;\s*)shun_state=([^;]+)/);
+      return m ? parseJSON(decodeURIComponent(m[1])) : null;
+    } catch(e){ return null; }
+  }
+  function readLegacy(){ // 旧バージョンのキーからの引き継ぎ
+    try {
+      const d = localStorage.getItem('shun_last_date');
+      if (!d) return null;
+      return { d: d, s: parseInt(localStorage.getItem('shun_streak') || '1', 10),
+               v: localStorage.getItem('shun_viewed') || '' };
+    } catch(e){ return null; }
+  }
+  function newer(a, b){
+    if (!a) return b;
+    if (!b) return a;
+    if ((a.d || '') !== (b.d || '')) return (a.d || '') > (b.d || '') ? a : b;
+    return (a.s || 0) >= (b.s || 0) ? a : b;
+  }
+  function makeUid(){
+    try { if (crypto.randomUUID) return crypto.randomUUID(); } catch(e){}
+    return String(Date.now()) + '-' + String(Math.random()).slice(2, 10);
+  }
+  const lsData = readFromLS();
+  const state = newer(newer(lsData, readFromCookie()), readLegacy()) || { d:'', s:0, v:'' };
+  // 言葉のアルバム（履歴）は localStorage 側にだけ入っている
+  if (!state.h && lsData && lsData.h) state.h = lsData.h;
+  if (!state.h) state.h = [];
+  if (!state.u) state.u = makeUid();
+
+  function saveState(){
+    try { localStorage.setItem(STATE_KEY, JSON.stringify(state)); } catch(e){}
+    try {
+      // cookie には履歴を除いた小さなコアだけ入れる（容量制限のため）
+      const core = { d: state.d, s: state.s, v: state.v, u: state.u,
+                     f: state.f, n: state.n, nA: state.nA, t: state.t, i: state.i };
+      document.cookie = STATE_KEY + '=' + encodeURIComponent(JSON.stringify(core)) +
+        '; max-age=34560000; path=/; SameSite=Lax';
     } catch(e){}
   }
+  // 出会った日（初回訪問日）。過去ユーザーは連続記録から推定する
+  if (!state.f) state.f = state.d ? shiftDay(state.d, -Math.max((state.s || 1) - 1, 0)) : today;
+
+  saveState(); // 起動時に両方へ書き戻して自己修復
 
   /* ==== Streak logic ==== */
   function loadStreak(){
-    const lastDate  = ls('shun_last_date');
-    const streak    = parseInt(ls('shun_streak') || '0', 10);
-    const viewed    = ls('shun_viewed') === today;
+    // 今日すでに開いている → 記録そのまま、再訪問表示
+    if (state.v === today) return { streak: state.s || 1, kind: 'viewed' };
+    // 初めての訪問
+    if (!state.d) return { streak: 1, kind: 'first' };
 
-    if (viewed) {
-      // Already opened today — streak unchanged, just return current
-      return { streak, isNew: false, isBroken: false, isViewed: true };
-    }
-
-    if (!lastDate) {
-      // First ever visit
-      return { streak: 1, isNew: true, isBroken: false, isViewed: false };
-    }
-
-    if (lastDate === prevDay(today)) {
-      // Consecutive day
-      return { streak: streak + 1, isNew: true, isBroken: false, isViewed: false };
-    }
-
-    // Broken streak
-    return { streak: 1, isNew: true, isBroken: true, isViewed: false, prevStreak: streak };
+    const gap = daysBetween(state.d, today);
+    if (gap <= 0) { state.v = today; saveState(); return { streak: state.s || 1, kind: 'viewed' }; }
+    if (gap === 1) return { streak: state.s + 1, kind: 'normal' };            // 連続
+    if (gap <= 1 + GRACE_DAYS) return { streak: state.s + 1, kind: 'grace' }; // 猶予内
+    return { streak: 1, kind: 'broken', prevStreak: state.s };                // リセット
   }
 
-  function saveStreak(streak){
-    ls('shun_last_date', today);
-    ls('shun_streak', String(streak));
-    ls('shun_viewed', today);
+  function saveStreak(streak, content){
+    state.d = today;
+    state.s = streak;
+    state.v = today;
+    state.t = content.text;
+    state.i = (content.item === undefined) ? null : content.item;
+    // アルバムに今日の言葉を追加（最新400件まで）
+    state.h.push({ k: today, t: content.text, i: state.i, g: isGoldDay(today) ? 1 : 0 });
+    if (state.h.length > 400) state.h = state.h.slice(-400);
+    saveState();
   }
 
   /* ==== Deterministic oracle pick ==== */
-  function pickOracle(){
-    let seed = 0;
-    for (let i=0; i<today.length; i++) seed = (seed*31 + today.charCodeAt(i)) >>> 0;
-    return oracles[seed % oracles.length];
+  function hashStr(str){
+    let h = 0;
+    for (let i=0; i<str.length; i++) h = (h*31 + str.charCodeAt(i)) >>> 0;
+    return h;
+  }
+  function dayNumberOf(dateKey){
+    return Math.round(new Date(dateKey + 'T00:00:00') / 86400000);
+  }
+  function gcd(a, b){ return b ? gcd(b, a % b) : a; }
+  function coprimeStride(n){
+    let s = Math.max(1, Math.round(n * 0.618));
+    while (gcd(s, n) !== 1) s++;
+    return s;
+  }
+  function pickOracleFor(dateKey){
+    // ストックが一周するまで同じ言葉が出ない順番で巡回する
+    // （PERSONALIZED時は人ごとに開始位置がずれる）
+    const n = oracles.length;
+    const offset = PERSONALIZED ? hashStr(state.u) : 0;
+    const idx = ((dayNumberOf(dateKey) * coprimeStride(n) + offset) % n + n) % n;
+    return oracles[idx];
+  }
+  function pickOracle(){ return pickOracleFor(today); }
+
+  /* ==== 金の宣告の判定（人ごと・日ごとに決定的） ==== */
+  const GOLD_CHANCE = 30; // 平均して30日に1回
+  function isGoldDay(dateKey){
+    return hashStr(dateKey + '|gold|' + state.u) % GOLD_CHANCE === 0;
   }
 
-  /* ==== Pick break message ==== */
-  function pickBreakMsg(prevStreak){
+  /* ==== 月齢（満月・新月）の判定 — APIなし、計算のみ ==== */
+  const SYNODIC = 29.530588853;
+  function moonAge(dateKey){
+    const ref = Date.UTC(2000, 0, 6, 18, 14); // 基準の新月
+    let age = ((new Date(dateKey + 'T12:00:00').getTime() - ref) / 86400000) % SYNODIC;
+    if (age < 0) age += SYNODIC;
+    return age;
+  }
+  function moonKindOf(dateKey){
+    const a = moonAge(dateKey);
+    if (a < 0.5 || a > SYNODIC - 0.5) return 'new';
+    if (Math.abs(a - SYNODIC / 2) < 0.5) return 'full';
+    return null;
+  }
+
+  /* ==== 出会って◯日目 ==== */
+  function totalDays(){
+    return daysBetween(state.f, today) + 1;
+  }
+
+  /* ==== Pick comeback message ==== */
+  function pickComebackMsg(prevStreak){
     let seed = prevStreak * 7 + 3;
-    return breakMessages[seed % breakMessages.length];
+    return comebackMessages[seed % comebackMessages.length];
   }
 
   /* ==== Char-by-char animation ==== */
@@ -649,19 +1143,52 @@ html, body {
   }
 
   /* ==== Main reveal ==== */
-  function reveal(streakInfo){
-    const { streak, isNew, isBroken, isViewed, prevStreak } = streakInfo;
+  function reveal(streakInfo, fast){
+    const { streak, kind, prevStreak } = streakInfo;
 
     renderStreak(streak);
 
-    // Decide what oracle/message to show
+    // ==== カードの装飾（金・月・記念日・宛名）は毎回反映する ====
+    const goldDay  = isGoldDay(today);
+    const moonKind = moonKindOf(today);
+    const days     = totalDays();
+
+    if (goldDay) document.getElementById('capture-card').classList.add('gold');
+    if (moonKind) {
+      const moonEl = document.getElementById('moon-note');
+      moonEl.textContent = moonKind === 'full' ? '○ 今夜は満月' : '● 今夜は新月';
+      moonEl.classList.add('on');
+    }
+    document.getElementById('anniv').textContent = '出会って ' + days + '日目';
+    if (state.n) {
+      const toEl = document.getElementById('to-name');
+      toEl.textContent = state.n + ' へ';
+      setTimeout(() => toEl.classList.add('on'), kind === 'viewed' ? 0 : 1600);
+    }
+
+    // ==== 今日の言葉を決める（優先順位つき） ====
     const isMilestone = streak % 7 === 0 && streak > 0;
     let content;
-    if (isBroken) {
-      // Broken streak — show cold message in oracle slot, no lucky item
-      content = { text: pickBreakMsg(prevStreak), item: null };
-    } else if (isMilestone && isNew) {
+    if (kind === 'viewed' && typeof state.t === 'string') {
+      // 同じ日の再訪問 — 今日見せたカードをそのまま復元
+      content = { text: state.t, item: state.i };
+    } else if (kind === 'broken') {
+      // 久しぶりの再訪 — あたたかく迎えて、記録だけ新しく始める
+      content = { text: pickComebackMsg(prevStreak), item: pickOracle().item };
+    } else if (kind === 'grace') {
+      // 数日空けたが継続 — 専用のひと言、ラッキーアイテムは通常どおり
+      content = { text: graceMessages[hashStr(today) % graceMessages.length], item: pickOracle().item };
+    } else if (annivOracles[days]) {
+      // 出会って50日・100日・半年・1年…の記念日
+      content = annivOracles[days];
+    } else if (isMilestone && kind === 'normal') {
       content = milestones[streak] || milestones[Math.max(...Object.keys(milestones).filter(k => k <= streak).map(Number))] || pickOracle();
+    } else if (goldDay) {
+      content = goldenOracles[hashStr(today + '|g|' + state.u) % goldenOracles.length];
+    } else if (moonKind === 'full') {
+      content = fullMoonOracles[hashStr(today) % fullMoonOracles.length];
+    } else if (moonKind === 'new') {
+      content = newMoonOracles[hashStr(today) % newMoonOracles.length];
     } else {
       content = pickOracle();
     }
@@ -675,7 +1202,7 @@ html, body {
     const revisitEl   = document.getElementById('revisit');
     const revisitText = document.getElementById('revisit-text');
 
-    if (isViewed) {
+    if (kind === 'viewed') {
       // 2nd+ open same day: show instantly + revisit message
       luckyItem.textContent = content.item || '—';
       animateChars(oracleEl, content.text, 0, 0);
@@ -689,13 +1216,13 @@ html, body {
       }
       setTimeout(() => {
         revisitEl.classList.add('on');
-        animateChars(revisitText, REVISIT_MSG, 200, 55);
+        animateChars(revisitText, revisitMsg(), 200, 55);
       }, 400);
       return;
     }
 
     // First open today — cinematic reveal
-    const startDelay = 2200;
+    const startDelay = fast ? 500 : 2200;
     const perChar    = 85;
     const textEnd    = animateChars(oracleEl, content.text, startDelay, perChar);
 
@@ -711,12 +1238,137 @@ html, body {
     setTimeout(() => hashtag.classList.add('on'),    textEnd + 1150);
 
     // Save after everything kicks off
-    saveStreak(streak);
+    saveStreak(streak, content);
   }
 
   /* ==== Boot ==== */
   const streakInfo = loadStreak();
-  reveal(streakInfo);
+
+  if (!state.n && !state.nA && streakInfo.kind !== 'viewed') {
+    // 初対面（または未回答）— 名前を聞いてから今日の言葉へ
+    renderStreak(streakInfo.streak);
+    document.getElementById('anniv').textContent = '出会って ' + totalDays() + '日目';
+
+    const box     = document.getElementById('name-view');
+    const q       = document.getElementById('name-q');
+    const input   = document.getElementById('name-input');
+    const actions = document.getElementById('name-actions');
+    box.classList.add('on');
+
+    let done = false;
+    function finish(name){
+      if (done) return;
+      done = true;
+      state.nA = 1;
+      if (name) state.n = name;
+      saveState();
+      if (name) {
+        q.textContent = name + '、ね。覚えた。';
+        input.style.display = 'none';
+        actions.style.display = 'none';
+        setTimeout(() => { box.style.display = 'none'; reveal(streakInfo, true); }, 1500);
+      } else {
+        box.style.display = 'none';
+        reveal(streakInfo, true);
+      }
+    }
+    document.getElementById('name-ok').addEventListener('click', () => finish(input.value.trim().slice(0, 12)));
+    document.getElementById('name-skip').addEventListener('click', () => finish(''));
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') finish(input.value.trim().slice(0, 12)); });
+  } else {
+    reveal(streakInfo);
+  }
+
+  /* ==== おやすみ宣告（22時〜4時に開いた時のひと言） ==== */
+  (function(){
+    const hr = new Date().getHours();
+    if (hr < 22 && hr >= 4) return;
+    const wrap   = document.getElementById('night-note');
+    const textEl = document.getElementById('night-text');
+    let line = nightLines[hashStr(today) % nightLines.length];
+    if (state.n) line = state.n + '、' + line;
+    setTimeout(() => {
+      wrap.classList.add('show');
+      setTimeout(() => wrap.classList.add('on'), 30);
+      animateChars(textEl, line, 250, 50);
+    }, streakInfo.kind === 'viewed' ? 1400 : 4200);
+  })();
+
+  /* ==== 言葉のアルバム ==== */
+  (function(){
+    const album    = document.getElementById('album');
+    const list     = document.getElementById('album-list');
+    const openBtn  = document.getElementById('album-btn');
+    const closeBtn = document.getElementById('album-close');
+
+    function render(){
+      list.innerHTML = '';
+      const items = (state.h || []).slice().reverse();
+      if (!items.length) {
+        const empty = document.createElement('div');
+        empty.className = 'album-empty';
+        empty.textContent = 'まだここには何もない。\n明日からの言葉を、集めていこう。';
+        list.appendChild(empty);
+        return;
+      }
+      items.forEach((e) => {
+        const div = document.createElement('div');
+        div.className = 'album-entry' + (e.g ? ' gold' : '');
+        const d = document.createElement('div');
+        d.className = 'album-date';
+        d.textContent = e.k.replace(/-/g, ' . ') + (e.g ? '　― 金の宣告 ―' : '');
+        const t = document.createElement('div');
+        t.className = 'album-text';
+        t.textContent = e.t;
+        div.appendChild(d);
+        div.appendChild(t);
+        if (e.i) {
+          const it = document.createElement('div');
+          it.className = 'album-item';
+          it.textContent = e.i;
+          div.appendChild(it);
+        }
+        list.appendChild(div);
+      });
+    }
+
+    openBtn.addEventListener('click', () => {
+      render();
+      album.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    });
+    closeBtn.addEventListener('click', () => {
+      album.classList.remove('show');
+      document.body.style.overflow = '';
+    });
+  })();
+
+  /* ==== 明日の予告（ぼかしチラ見せ） ==== */
+  (function(){
+    const el = document.getElementById('tomorrow-snippet');
+    if (!el) return;
+    const tomorrowKey = shiftDay(today, 1);
+    if (isGoldDay(tomorrowKey)) {
+      el.textContent = '明日は、少し特別な予感。';
+    } else {
+      const next = pickOracleFor(tomorrowKey);
+      el.textContent = next.text.split('\n')[0].slice(0, 9) + '…';
+    }
+  })();
+
+  /* ==== ホーム画面追加のヒント（アプリ表示中は隠す） ==== */
+  (function(){
+    const el = document.getElementById('a2hs');
+    if (!el) return;
+    const standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+                       || window.navigator.standalone === true;
+    if (standalone) el.style.display = 'none';
+  })();
+
+  /* ==== Service worker（ホーム画面追加・オフライン用） ==== */
+  if ('serviceWorker' in navigator) {
+    try { navigator.serviceWorker.register('./sw.js').catch(function(){}); } catch(e){}
+  }
 
   /* ==== html2canvas: save card as PNG ==== */
   document.getElementById('save-btn').addEventListener('click', async () => {
@@ -750,7 +1402,7 @@ html, body {
           await navigator.share({
             files: [file],
             title: 'しゅんの宣告',
-            text: `${today}\n\n#しゅんの宣告`
+            text: `${today}\n\n#しゅんの宣告\nhttps://sn01dose.github.io/shun-no-senkoku/`
           });
           btn.textContent = '画像を保存してシェア';
           btn.style.pointerEvents = '';
