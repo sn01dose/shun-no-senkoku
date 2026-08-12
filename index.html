@@ -700,6 +700,357 @@ html, body {
   white-space: pre-line;
 }
 
+/* ---- Rarity ---- */
+.c-rarity {
+  margin-top: 12px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  letter-spacing: 0.45em;
+  color: #8a8a96;
+}
+.c-rarity .jp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  margin-left: 4px;
+}
+.c-item-jp {
+  margin-top: 10px;
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 14px;
+  letter-spacing: 0.28em;
+  color: #dcdce2;
+}
+.r2 { color: #a8c4d8; }
+.r3 { color: #cbb2e0; }
+.r4 { color: #e6c87a; }
+.c-new-tag {
+  display: none;
+  margin-top: 10px;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  color: #e0d0a0;
+}
+.c-new-tag.on { display: block; }
+
+/* ---- Treasury (宝物庫) ---- */
+.vault {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(5,5,9,0.97);
+  display: none;
+  flex-direction: column;
+  padding: 28px 18px 18px;
+}
+.vault.show { display: flex; }
+.vault-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  max-width: 390px;
+  width: 100%;
+  margin: 0 auto 4px;
+}
+.vault-title {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 15px;
+  letter-spacing: 0.35em;
+  color: #e8e8ea;
+}
+.vault-close {
+  border: none; background: none;
+  color: #787888;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 11px; letter-spacing: 0.25em;
+  cursor: pointer; padding: 6px;
+}
+.vault-count {
+  max-width: 390px; width: 100%; margin: 0 auto 4px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px; letter-spacing: 0.35em; color: #8a8a96;
+}
+.vault-bar {
+  max-width: 390px; width: 100%; margin: 0 auto 18px;
+  height: 1px; background: rgba(192,192,192,0.14);
+}
+.vault-bar span {
+  display: block; height: 100%;
+  background: linear-gradient(to right, rgba(192,192,192,0.5), #C0C0C0);
+  transition: width 1s ease;
+}
+.vault-scroll {
+  width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 16px;
+}
+.vault-grid {
+  max-width: 390px; width: 100%; margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.slot {
+  aspect-ratio: 1 / 1;
+  border: 0.5px solid rgba(192,192,192,0.14);
+  background: rgba(255,255,255,0.012);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 6px; padding: 6px;
+  cursor: pointer;
+  text-align: center;
+}
+.slot.locked { cursor: default; }
+.slot-name {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 11px; line-height: 1.6;
+  letter-spacing: 0.08em;
+  color: #d8d8de;
+}
+.slot-star { font-family: 'Cormorant Garamond', serif; font-size: 9px; letter-spacing: 0.2em; color: #8a8a96; }
+.slot-dup  { font-family: 'Cormorant Garamond', serif; font-size: 9px; letter-spacing: 0.1em; color: #6e6e7a; }
+.slot-lock { font-family: 'Noto Serif JP', serif; font-size: 15px; color: #3c3c46; }
+.slot.r2 { border-color: rgba(168,196,216,0.3); }
+.slot.r3 { border-color: rgba(203,178,224,0.35); }
+.slot.r4 { border-color: rgba(230,200,122,0.5); background: rgba(230,200,122,0.045); }
+.slot.is-new { border-color: rgba(224,208,160,0.85); }
+
+/* ---- Intimacy ---- */
+.c-bond {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 300;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: #a8a2b4;
+  margin: -10px 0 18px;
+  opacity: 0;
+  animation: fadein 1.2s ease 0.7s forwards;
+}
+.c-bond .dot { color: #55505f; margin: 0 6px; }
+
+/* 親密度が上がった瞬間 */
+.levelup {
+  position: fixed; inset: 0; z-index: 220;
+  background: rgba(5,5,9,0.94);
+  display: none; align-items: center; justify-content: center;
+  padding: 30px; text-align: center;
+}
+.levelup.show { display: flex; }
+.levelup-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 10px; letter-spacing: 0.5em; color: #8a8a96;
+  text-transform: uppercase;
+}
+.levelup-name {
+  margin-top: 18px;
+  font-family: 'Noto Serif JP', serif; font-weight: 300;
+  font-size: 28px; letter-spacing: 0.38em; color: #f2f2f4;
+}
+.levelup-msg {
+  margin-top: 26px;
+  font-family: 'Noto Serif JP', serif; font-weight: 300;
+  font-size: 13px; line-height: 2.4; letter-spacing: 0.18em;
+  color: #c8c8d2; white-space: pre-line;
+}
+.levelup-close {
+  margin-top: 32px;
+  border: 0.5px solid rgba(212,212,218,0.6);
+  background: none; color: #ededef;
+  font-family: 'Noto Serif JP', serif; font-weight: 300;
+  font-size: 11px; letter-spacing: 0.3em;
+  padding: 11px 28px; cursor: pointer;
+}
+
+/* ---- Share urging (特別な日だけ) ---- */
+.urge-line {
+  display: none;
+  font-family: 'Noto Serif JP', serif; font-weight: 300;
+  font-size: 12px; letter-spacing: 0.2em;
+  color: #c8bfa8; text-align: center;
+  margin-bottom: 14px;
+}
+.urge-line.on { display: block; animation: fadein 1.2s ease 0.3s both; }
+.ghost-btn.urge {
+  border-color: rgba(230,200,122,0.75);
+  color: #f2ead6;
+}
+.ghost-btn.urge::before {
+  background: radial-gradient(circle, #e6c87a 0%, #8a7440 100%);
+}
+
+/* ---- Fragments ---- */
+.vault-frag {
+  max-width: 390px; width: 100%; margin: 0 auto 14px;
+  display: flex; align-items: baseline; justify-content: space-between;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px; letter-spacing: 0.28em; color: #a8a2b4;
+}
+.vault-frag .hint {
+  font-family: 'Noto Serif JP', serif; font-size: 9px;
+  letter-spacing: 0.2em; color: #6e6e7a;
+}
+.vault-section {
+  max-width: 390px; width: 100%; margin: 18px auto 10px;
+  font-family: 'Noto Serif JP', serif; font-weight: 300;
+  font-size: 11px; letter-spacing: 0.32em; color: #9a9aa6;
+  display: flex; align-items: baseline; justify-content: space-between;
+}
+.vault-section .sub {
+  font-family: 'Cormorant Garamond', serif; font-size: 10px;
+  letter-spacing: 0.2em; color: #6e6e7a;
+}
+.slot.seasonal { border-color: rgba(200,191,168,0.4); }
+.slot.expired  { opacity: 0.35; }
+.slot-tag {
+  font-family: 'Noto Serif JP', serif; font-size: 8px;
+  letter-spacing: 0.2em; color: #c8bfa8;
+}
+.slot.affordable { border-color: rgba(192,192,192,0.55); }
+.slot-cost {
+  font-family: 'Cormorant Garamond', serif; font-size: 9px;
+  letter-spacing: 0.1em; color: #a8a2b4;
+}
+
+/* 交換ボタン */
+.sheet-trade {
+  margin-top: 22px;
+  border: 0.5px solid rgba(212,212,218,0.7);
+  background: rgba(10,10,18,0.4); color: #ededef;
+  font-family: 'Noto Serif JP', serif; font-weight: 300;
+  font-size: 12px; letter-spacing: 0.24em;
+  padding: 12px 22px; cursor: pointer; width: 100%;
+}
+.sheet-trade[disabled] { opacity: 0.35; cursor: default; }
+.sheet-note {
+  margin-top: 12px;
+  font-family: 'Noto Serif JP', serif; font-weight: 300;
+  font-size: 10px; letter-spacing: 0.16em; color: #8a8a96;
+  white-space: pre-line;
+}
+
+/* ---- Vault share button ---- */
+.vault-share {
+  max-width: 390px; width: 100%; margin: 0 auto 14px;
+  border: 0.5px solid rgba(212,212,218,0.55);
+  background: rgba(10,10,18,0.35);
+  color: #ededef;
+  font-family: 'Noto Serif JP', serif; font-weight: 300;
+  font-size: 11px; letter-spacing: 0.3em;
+  padding: 12px; cursor: pointer;
+}
+
+/* ---- Vault capture card (image for sharing) ---- */
+.vault-card-holder {
+  position: fixed; left: -9999px; top: 0;
+  width: 390px;
+}
+.vcard {
+  width: 390px;
+  padding: 46px 34px 34px;
+  background:
+    linear-gradient(135deg, #080810 0%, #14141e 28%, #09090f 55%, #181820 82%, #0b0b13 100%);
+  text-align: center;
+  position: relative;
+}
+.vcard-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9px; letter-spacing: 0.55em; color: #8a8a96;
+  text-transform: uppercase;
+}
+.vcard-title {
+  margin-top: 20px;
+  font-family: 'Noto Serif JP', serif; font-weight: 300;
+  font-size: 26px; letter-spacing: 0.4em; color: #f0f0f2;
+}
+.vcard-count {
+  margin-top: 16px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px; letter-spacing: 0.14em; color: #e8e8ea;
+}
+.vcard-count em { font-style: normal; font-size: 15px; color: #8a8a96; }
+.vcard-grid {
+  margin: 26px auto 0;
+  display: grid; grid-template-columns: repeat(10, 1fr);
+  gap: 5px; width: 100%;
+}
+.vcell {
+  aspect-ratio: 1 / 1;
+  border: 0.5px solid rgba(192,192,192,0.16);
+}
+.vcell.o1 { background: #9a9aa6; border-color: #9a9aa6; }
+.vcell.o2 { background: #a8c4d8; border-color: #a8c4d8; }
+.vcell.o3 { background: #cbb2e0; border-color: #cbb2e0; }
+.vcell.o4 { background: #e6c87a; border-color: #e6c87a; }
+.vcard-tiers {
+  margin-top: 26px;
+  display: flex; justify-content: center; gap: 16px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px; letter-spacing: 0.16em;
+}
+.vcard-foot {
+  margin-top: 26px; padding-top: 20px;
+  border-top: 0.5px solid rgba(192,192,192,0.12);
+  font-family: 'Noto Serif JP', serif; font-weight: 300;
+  font-size: 10px; letter-spacing: 0.24em; color: #9a9aa6;
+}
+.vcard-tag {
+  margin-top: 12px;
+  font-family: 'Noto Serif JP', serif; font-weight: 300;
+  font-size: 10px; letter-spacing: 0.3em; color: #75757f;
+}
+
+/* ---- Item detail sheet ---- */
+.sheet {
+  position: fixed; inset: 0; z-index: 210;
+  background: rgba(5,5,9,0.9);
+  display: none; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.sheet.show { display: flex; }
+.sheet-inner {
+  max-width: 320px; width: 100%;
+  border: 0.5px solid rgba(192,192,192,0.22);
+  background: #0a0a11;
+  padding: 34px 26px 28px;
+  text-align: center;
+}
+.sheet-star { font-family:'Cormorant Garamond',serif; font-size:11px; letter-spacing:0.45em; color:#8a8a96; }
+.sheet-jp {
+  margin-top: 14px;
+  font-family:'Noto Serif JP',serif; font-weight:300;
+  font-size: 19px; letter-spacing: 0.24em; color: #f0f0f2;
+}
+.sheet-en {
+  margin-top: 8px;
+  font-family:'Cormorant Garamond',serif; font-size: 11px;
+  letter-spacing: 0.35em; color: #8a8a96; text-transform: uppercase;
+}
+.sheet-c {
+  margin-top: 22px; padding-top: 20px;
+  border-top: 0.5px solid rgba(192,192,192,0.12);
+  font-family:'Noto Serif JP',serif; font-weight:300;
+  font-size: 13px; line-height: 2.2; letter-spacing: 0.16em;
+  color: #c8c8d2; white-space: pre-line;
+}
+.sheet-meta {
+  margin-top: 20px;
+  font-family:'Cormorant Garamond',serif; font-size:10px;
+  letter-spacing: 0.3em; color: #6e6e7a;
+}
+.sheet-close {
+  margin-top: 24px;
+  border: 0.5px solid rgba(212,212,218,0.6);
+  background: none; color: #ededef;
+  font-family:'Noto Serif JP',serif; font-weight:300;
+  font-size: 11px; letter-spacing: 0.3em;
+  padding: 10px 26px; cursor: pointer;
+}
+
 /* ---- Tomorrow teaser (outside the card) ---- */
 .tomorrow {
   margin-top: 2px;
@@ -758,6 +1109,7 @@ html, body {
       </div>
     </div>
     <div class="c-anniv" id="anniv"></div>
+    <div class="c-bond" id="bond"></div>
     <div class="c-gold-label">― 金の宣告 ―</div>
     <h1 class="c-title">宣&nbsp;告</h1>
     <div class="c-title-en">— Decree of Shun —</div>
@@ -783,6 +1135,9 @@ html, body {
     <div class="c-divider" id="divider"><span></span><em>Lucky Item</em><span></span></div>
     <div class="c-lucky-wrap" id="lucky-wrap">
       <div class="c-lucky-badge" id="lucky-item">—</div>
+      <div class="c-item-jp" id="lucky-jp"></div>
+      <div class="c-rarity" id="lucky-rarity"></div>
+      <div class="c-new-tag" id="lucky-new">― はじめて手にした ―</div>
     </div>
 
     <div class="c-sig" id="signature">
@@ -808,7 +1163,9 @@ html, body {
      ACTION AREA (outside the card, not captured)
      ============================================= -->
 <div class="action-area" id="action-area">
+  <div class="urge-line" id="urge-line"></div>
   <button class="ghost-btn" id="save-btn">画像を保存してシェア</button>
+  <button class="ghost-btn ghost-sub" id="vault-btn">宝物庫</button>
   <button class="ghost-btn ghost-sub" id="album-btn">これまでの言葉</button>
   <div class="action-hint">↑ 保存した画像をThreadsに投稿してね</div>
 
@@ -825,6 +1182,63 @@ html, body {
   <div class="dl-msg">
     画像を保存しました<br>
     <em>Threads に投稿してね 🖤</em>
+  </div>
+</div>
+
+<!-- Treasury overlay -->
+<div class="vault" id="vault">
+  <div class="vault-head">
+    <div class="vault-title">宝物庫</div>
+    <button class="vault-close" id="vault-close">閉じる</button>
+  </div>
+  <div class="vault-count" id="vault-count"></div>
+  <div class="vault-bar"><span id="vault-bar-fill" style="width:0%"></span></div>
+  <div class="vault-frag">
+    <span id="vault-frag-n">欠片 0</span>
+    <span class="hint">ダブったアイテムは欠片になる</span>
+  </div>
+  <div class="vault-scroll" id="vault-scroll">
+    <div class="vault-section"><span>常設</span><span class="sub" id="sec-perm"></span></div>
+    <div class="vault-grid" id="vault-grid"></div>
+    <div class="vault-section"><span id="sec-season-label">限定</span><span class="sub" id="sec-season"></span></div>
+    <div class="vault-grid" id="vault-grid-season"></div>
+  </div>
+  <button class="vault-share" id="vault-share">宝物庫を画像にしてシェア</button>
+</div>
+
+<div class="vault-card-holder">
+  <div class="vcard" id="vault-card">
+    <div class="vcard-brand">Sanctum of Shun</div>
+    <div class="vcard-title">宝物庫</div>
+    <div class="vcard-count"><span id="vc-owned">0</span><em> / <span id="vc-total">60</span></em></div>
+    <div class="vcard-grid" id="vc-grid"></div>
+    <div class="vcard-tiers" id="vc-tiers"></div>
+    <div class="vcard-foot" id="vc-foot"></div>
+    <div class="vcard-tag">#しゅんの宣告</div>
+  </div>
+</div>
+
+<!-- Item detail sheet -->
+<div class="sheet" id="sheet">
+  <div class="sheet-inner">
+    <div class="sheet-star" id="sheet-star"></div>
+    <div class="sheet-jp" id="sheet-jp"></div>
+    <div class="sheet-en" id="sheet-en"></div>
+    <div class="sheet-c" id="sheet-c"></div>
+    <div class="sheet-meta" id="sheet-meta"></div>
+    <button class="sheet-trade" id="sheet-trade">交換する</button>
+    <div class="sheet-note" id="sheet-note"></div>
+    <button class="sheet-close" id="sheet-close">閉じる</button>
+  </div>
+</div>
+
+<!-- Level up -->
+<div class="levelup" id="levelup">
+  <div>
+    <div class="levelup-label">Bond Deepened</div>
+    <div class="levelup-name" id="levelup-name"></div>
+    <div class="levelup-msg" id="levelup-msg"></div>
+    <button class="levelup-close" id="levelup-close">閉じる</button>
   </div>
 </div>
 
@@ -943,22 +1357,194 @@ html, body {
     730: { text: "出会って2年。\nもう君のいない毎日は、\n思い出せないよ。",       item: "Infinity Necklace" }
   };
 
-  /* ==== おやすみ宣告（22時〜4時） ==== */
-  const nightLines = [
-    "もう遅い時間だね。\n今日はここまで。おやすみ。",
-    "スマホを置いて、目を閉じな。\nおやすみ。いい夢を。",
-    "夜更かしは肌に出るよ。\n……心配してるだけ。おやすみ。",
-    "今日も一日、お疲れさま。\nゆっくり休んで。おやすみ。"
+  /* ==== おやすみ宣告（22時〜4時）— 親密度で口調が変わる ==== */
+  const nightLinesByTone = [
+    [ // 0: まだよそよそしい
+      "もう遅い時間だね。\n今日はここまで。おやすみ。",
+      "スマホを置いて、目を閉じな。\nおやすみ。",
+      "夜更かしは肌に出るよ。\n……別に、心配はしてない。",
+      "今日も一日、お疲れさま。\nゆっくり休んで。"
+    ],
+    [ // 1: 打ち解けてきた
+      "また起きてる。\n君のこういうところ、\n心配になるんだよ。",
+      "スマホ置きな。\n明日も来るんでしょ。\nなら、寝て。",
+      "夜更かしは肌に出るって\n何回言った？　おやすみ。",
+      "今日もお疲れさま。\nちゃんと終わらせて寝るんだよ。"
+    ],
+    [ // 2: 素を見せる
+      "こんな時間まで起きてるの、\n知ってるの僕だけでしょ。\n……いいけど。おやすみ。",
+      "眠れない夜に来る場所が\nここでよかった。\nもう休みな。",
+      "今日はもう十分がんばった。\n僕が保証する。おやすみ。",
+      "明日も待ってるから。\nちゃんと寝て、ちゃんと来て。"
+    ]
   ];
 
+  const levelupMessages = {
+    2: "少しだけ、\n君のことが分かってきた。",
+    3: "君が来ない日は、\n何か抜けてる感じがする。\n……気のせいかな。",
+    4: "もう他人行儀はやめようか。\n君は、そういう相手じゃない。",
+    5: "ここまで来た人は、君で二人目。\n……嘘。君が最初だよ。"
+  };
+
   function revisitMsg(){
-    return state.n
-      ? state.n + "、今日はもう教えることはないよ。明日またおいで。"
-      : "今日はもう、君に教えることはないよ。明日またおいで。";
+    const t  = toneTier();
+    const nm = state.n ? state.n + "、" : "";
+    if (t === 0) return nm + "今日はもう教えることはないよ。明日またおいで。";
+    if (t === 1) return nm + "何度来ても、今日の言葉は変わらないよ。……でも、来ていい。";
+    return nm + "そんなに何度も来なくても、僕は逃げないよ。明日も、ここにいる。";
+  }
+
+
+  /* ==================================================================
+     ラッキーアイテム台帳
+     r = レアリティ (1:常 2:稀 3:貴 4:極)  c = しゅんのひと言
+     ※ 並び順は保存形式のキーになるので、追加は末尾に行うこと
+     ================================================================== */
+  const items = [
+    { n:"珈琲",         e:"Black Coffee",       r:1, c:"苦いのが飲めるようになったんだ。\n少し、大人になったね。" },
+    { n:"甘い紅茶",     e:"Sweet Milk Tea",     r:1, c:"我慢ばかりしてるでしょ。\n今日は甘やかされていい日。" },
+    { n:"加密列の茶",   e:"Chamomile Tea",      r:1, c:"よく眠れてないの、\n顔に出てるよ。飲みな。" },
+    { n:"薄荷の飴",     e:"Mint Drop",          r:1, c:"言いたいことがあるなら、\nこれを舐めてから言いな。" },
+    { n:"板チョコ",     e:"Dark Chocolate",     r:1, c:"半分こするなら、\n相手はちゃんと選んで。" },
+    { n:"檸檬水",       e:"Lemon Water",        r:1, c:"濁った日は、\nまず体から澄ませること。" },
+    { n:"白い便箋",     e:"White Letter Paper", r:1, c:"送らなくていいから、\n書くだけ書いてごらん。" },
+    { n:"麻のハンカチ", e:"Linen Handkerchief", r:1, c:"泣く準備がある人は、\nちゃんと強い人だよ。" },
+    { n:"手鏡",         e:"Hand Mirror",        r:1, c:"ほら、見て。\n今日の君、悪くないでしょ。" },
+    { n:"髪留め",       e:"Hair Clip",          r:1, c:"顔が見えないと、\n褒めるものも褒められない。" },
+    { n:"白いシャツ",   e:"White Shirt",        r:1, c:"飾らない日の君が、\n一番きれいだと思う。" },
+    { n:"紺の傘",       e:"Navy Umbrella",      r:1, c:"濡れて帰るのは今日で終わり。\n備えなさい。" },
+    { n:"読みかけの本", e:"Unfinished Book",    r:1, c:"途中で止まってるもの、\n今日なら進められる。" },
+    { n:"繰り返す音楽", e:"A Song on Repeat",   r:1, c:"何度も聴いてる曲があるでしょ。\n今日はそれでいい。" },
+    { n:"熱い湯",       e:"Hot Bath",           r:1, c:"考えるのは湯上がりでいい。\nまず温まって。" },
+    { n:"眠りの香",     e:"Lavender Oil",       r:1, c:"今夜は何も考えないで。\n命令ね。" },
+    { n:"新しい靴下",   e:"New Socks",          r:1, c:"見えないところを整えられる人が、\n結局きれいでいられる。" },
+    { n:"木の櫛",       e:"Wooden Comb",        r:1, c:"焦ってる日ほど、\n髪を梳かす時間をとって。" },
+    { n:"硝子のコップ", e:"Crystal Glass",      r:1, c:"水を一杯。\n君の不調、だいたいそれで直る。" },
+    { n:"紅の口紅",     e:"Red Lipstick",       r:1, c:"武装していい日だよ。\n強い色を選びな。" },
+    { n:"小さな鈴",     e:"Little Bell",        r:1, c:"君が来た時の音、\n僕はちゃんと覚えてる。" },
+    { n:"四葉",         e:"Four-leaf Clover",   r:1, c:"探した人にしか見つからない。\n君は探せる人だよ。" },
+    { n:"白い花",       e:"White Flower",       r:1, c:"誰のためでもなく、\n自分のために飾ってごらん。" },
+    { n:"窓辺の光",     e:"Morning Light",      r:1, c:"カーテンを開けて。\nそれだけで今日は変わる。" },
+    { n:"使い込んだ手帳",e:"Worn Notebook",     r:1, c:"覚えておけない日は、\n書いて外に預けなさい。" },
+    { n:"深呼吸",       e:"One Deep Breath",    r:1, c:"タダで手に入る最強の道具。\n使わない手はない。" },
+
+    { n:"天鵞絨のリボン", e:"Velvet Ribbon",    r:2, c:"結ぶという行為には、\n少しだけ呪いが宿るんだよ。" },
+    { n:"革の手袋",       e:"Leather Gloves",   r:2, c:"素手で触らなくていい相手も、\n世の中にはいる。" },
+    { n:"琥珀の石",       e:"Amber Stone",      r:2, c:"閉じ込められた時間の欠片。\n君の過去も、こう光ればいい。" },
+    { n:"猫目石",         e:"Cat's Eye",        r:2, c:"見抜く目が要る日。\n愛想笑いは置いていきな。" },
+    { n:"銀の栞",         e:"Silver Bookmark",  r:2, c:"中断は失敗じゃない。\n続きがあるってことだよ。" },
+    { n:"万年筆",         e:"Fountain Pen",     r:2, c:"消せない筆記具で書く言葉は、\n少しだけ本気になる。" },
+    { n:"蜜蝋の蝋燭",     e:"Beeswax Candle",   r:2, c:"暗い部屋に灯りを一つ。\n君の夜はそれで足りる。" },
+    { n:"硝子のペン",     e:"Glass Ink Pen",    r:2, c:"壊れやすいものを扱う手つき、\n君は上手いはずだよ。" },
+    { n:"月模様の首飾り", e:"Moon Necklace",    r:2, c:"満ちる日も欠ける日も、\n同じ月なんだからね。" },
+    { n:"薔薇の標本",     e:"Preserved Rose",   r:2, c:"枯れない形にするのも、\n愛し方のひとつ。" },
+    { n:"黒天鵞絨の小箱", e:"Black Velvet Box", r:2, c:"誰にも見せない引き出しを、\nひとつ持っていなさい。" },
+    { n:"真鍮の羅針盤",   e:"Brass Compass",    r:2, c:"迷っていい。\n方角さえ忘れなければ。" },
+    { n:"絹の枕カバー",   e:"Silk Pillowcase",  r:2, c:"髪と肌は、寝てる間に決まる。\n知らなかったでしょ。" },
+    { n:"山羊絨の襟巻",   e:"Cashmere Scarf",   r:2, c:"首を温めな。\n心細さの半分は冷えだよ。" },
+    { n:"革の長靴",       e:"Leather Boots",    r:2, c:"歩く覚悟がある日の靴。\n今日は遠くまで行ける。" },
+    { n:"白金の指環",     e:"White Gold Ring",  r:2, c:"約束は誰かとするものだけじゃない。\n自分とも、できる。" },
+    { n:"蛍石",           e:"Fluorite",         r:2, c:"暗いところでこそ光る石。\n誰かに似てるね。" },
+    { n:"星砂の小瓶",     e:"Vial of Star Sand",r:2, c:"小さすぎて数えられないもの。\n君の頑張りもそう。" },
+
+    { n:"真珠の首飾り",   e:"Pearl Choker",     r:3, c:"傷を包んで光に変える。\n真珠の作り方、知ってた？" },
+    { n:"一粒のダイヤ",   e:"Single Diamond",   r:3, c:"数じゃないんだよ。\n君も、ひとつで充分。" },
+    { n:"蒼玉の耳飾り",   e:"Sapphire Stud",    r:3, c:"冷静でいられる日は強い。\n熱くなるのは明日でいい。" },
+    { n:"金の腕環",       e:"Gold Bangle",      r:3, c:"腕に重みがあると、\n人は堂々と歩けるらしい。" },
+    { n:"紅い靴",         e:"Red Sole Heels",   r:3, c:"追いかける靴じゃない。\n追わせる靴だよ、それは。" },
+    { n:"古い懐中時計",   e:"Antique Watch",    r:3, c:"時間を持ち歩く人は、\n人を待たせる側になる。" },
+    { n:"香水の小瓶",     e:"Perfume Atomizer", r:3, c:"去った後に残るものを、\n君は選べる立場にいる。" },
+    { n:"白絹のドレス",   e:"White Silk Dress", r:3, c:"汚れを恐れて着ないなら、\n持ってないのと同じだよ。" },
+    { n:"黒真珠の耳飾り", e:"Black Pearl Drop", r:3, c:"明るいだけの女は飽きられる。\n影を持ちなさい。" },
+    { n:"永遠の指環",     e:"Eternity Ring",    r:3, c:"終わりがないものなんてない。\nでも願うのは自由でしょ。" },
+    { n:"銀の鏡",         e:"Silver Mirror",    r:3, c:"人の目じゃなく、\nこれで自分を確かめて。" },
+
+    { n:"月の雫",         e:"Drop of the Moon", r:4, c:"満月の夜にだけ落ちる雫。\n君に拾われて、良かった。" },
+    { n:"黒曜の宝冠",     e:"Obsidian Tiara",   r:4, c:"被る資格の話はしない。\n君が被るなら、それが答え。" },
+    { n:"誓いの指環",     e:"Ring of Vow",      r:4, c:"…深い意味はないよ。\n出たものは、しかたないだろ。" },
+    { n:"無銘の鍵",       e:"The Nameless Key", r:4, c:"どこの鍵かは教えない。\n君が見つけるものだから。" },
+    { n:"白金の砂時計",   e:"Platinum Hourglass",r:4,c:"止められないものを、\n美しく見せる唯一の道具。" },
+
+    /* ---- ここから月替わりの限定アイテム（m = 出現する月） ---- */
+    { m:1,  n:"初詣の絵馬",   e:"New Year Votive",   r:3, c:"願いを書く手が震えてた。\n本気だったってことだよ。" },
+    { m:1,  n:"白い息",       e:"Frozen Breath",     r:3, c:"寒い日にしか見えないもの。\n君にも、そういう面がある。" },
+    { m:2,  n:"溶けない雪",   e:"Everlasting Snow",  r:3, c:"消えないでほしいものだけ、\n手のひらに乗せなさい。" },
+    { m:2,  n:"贈り物のリボン",e:"Gift Ribbon",      r:3, c:"渡す前が一番いいんだよ。\n…渡しなよ、ちゃんと。" },
+    { m:3,  n:"桜の一枝",     e:"Branch of Sakura",  r:3, c:"散るから綺麗って言うけど、\n咲いてる今を見なよ。" },
+    { m:3,  n:"卒業の栞",     e:"Farewell Bookmark", r:3, c:"終わりに栞を挟むのは、\nまた開く気があるからでしょ。" },
+    { m:4,  n:"春の雨傘",     e:"Spring Rain Umbrella",r:3,c:"始まりの季節は雨が多い。\n濡れて帰らないでよ。" },
+    { m:4,  n:"新しい鍵",     e:"New Door Key",      r:3, c:"開ける前は誰でも怖い。\n君だけじゃないよ。" },
+    { m:5,  n:"若葉の雫",     e:"Dew on New Leaves", r:3, c:"伸びてる途中は不格好。\nそれでいいんだよ。" },
+    { m:5,  n:"贈る花束",     e:"Bouquet to Give",   r:3, c:"誰かに贈る日に、\n自分の分も買っていきな。" },
+    { m:6,  n:"紫陽花",       e:"Hydrangea",         r:3, c:"土によって色が変わる花。\n君も、いる場所を選んで。" },
+    { m:6,  n:"雨粒の首飾り", e:"Raindrop Necklace", r:3, c:"降られた日にしか\n拾えないものもある。" },
+    { m:7,  n:"星の短冊",     e:"Tanabata Strip",    r:3, c:"年に一度しか会えなくても、\n続いてる関係はあるよ。" },
+    { m:7,  n:"硝子の風鈴",   e:"Glass Wind Chime",  r:3, c:"風が来るまで鳴らない。\n待てる子は、強い。" },
+    { m:8,  n:"花火の残り火", e:"Ember of Fireworks",r:3, c:"終わった後の匂いまで、\n夏のうちだからね。" },
+    { m:8,  n:"白い貝殻",     e:"White Seashell",    r:3, c:"耳に当てても海は鳴らない。\nそれでも当てるんでしょ。" },
+    { m:9,  n:"十五夜の団子", e:"Harvest Moon Dango",r:3, c:"月より団子でいい日だよ、\n今日くらいは。" },
+    { m:9,  n:"秋の虫籠",     e:"Autumn Cricket Cage",r:3,c:"鳴き声は夜のほうが澄む。\n君の言葉も、たぶんそう。" },
+    { m:10, n:"黒猫の鈴",     e:"Black Cat Bell",    r:3, c:"近づいてくる音がする。\n…逃げないでいてよ。" },
+    { m:10, n:"蝋の仮面",     e:"Wax Masquerade",    r:3, c:"被ってる日があってもいい。\n外す場所さえあれば。" },
+    { m:11, n:"紅葉の一葉",   e:"Single Maple Leaf", r:3, c:"落ちる直前が一番赤い。\n派手にいきな。" },
+    { m:11, n:"温めた葡萄酒", e:"Mulled Wine",       r:3, c:"冷えた日は内側から。\n無理に笑うより効くよ。" },
+    { m:12, n:"聖夜の燭台",   e:"Midwinter Candelabra",r:3,c:"誰といるかで決まる夜。\n…僕はここにいるけど。" },
+    { m:12, n:"銀の雪片",     e:"Silver Snowflake",  r:3, c:"同じ形は二つとない。\n君と同じで、探すだけ無駄。" }
+  ];
+
+  function isSeasonal(it){ return typeof it.m === 'number'; }
+  function monthOf(dateKey){ return parseInt(dateKey.slice(5, 7), 10); }
+  function seasonalIndicesFor(month){
+    const out = [];
+    for (let i = 0; i < items.length; i++) if (items[i].m === month) out.push(i);
+    return out;
+  }
+
+  const RARITY_LABEL = { 1:"常", 2:"稀", 3:"貴", 4:"極" };
+
+  /* ==== その日のアイテムを決める（人ごと・日ごとに決定的） ==== */
+  function itemsOfRarity(r){
+    const out = [];
+    // 限定アイテムは通常抽選には混ぜない（その月の限定枠でしか出さない）
+    for (let i = 0; i < items.length; i++) if (items[i].r === r && !isSeasonal(items[i])) out.push(i);
+    return out;
+  }
+  function rarityForDay(dateKey, forceRare){
+    if (forceRare) return 4;
+    const roll = hashStr(dateKey + '|rar|' + state.u) % 1000;
+    if (roll < 20)  return 4;   // 2%
+    if (roll < 130) return 3;   // 11%
+    if (roll < 400) return 2;   // 27%
+    return 1;                   // 60%
+  }
+  function pickItemIndex(dateKey, forceRare){
+    // 月替わりの限定枠（金の宣告の日は★4優先なので回さない）
+    if (!forceRare && hashStr(dateKey + '|sea|' + state.u) % 100 < SEASONAL_CHANCE) {
+      const sp = seasonalIndicesFor(monthOf(dateKey));
+      if (sp.length) return sp[hashStr(dateKey + '|si|' + state.u) % sp.length];
+    }
+    const r    = rarityForDay(dateKey, forceRare);
+    const pool = itemsOfRarity(r);
+    return pool[hashStr(dateKey + '|itm|' + state.u) % pool.length];
+  }
+
+  /* ==== 集計ヘルパー（常設と限定を分けて数える） ==== */
+  function permIndices(){
+    const out = [];
+    for (let i = 0; i < items.length; i++) if (!isSeasonal(items[i])) out.push(i);
+    return out;
+  }
+  function countOwned(list){
+    let n = 0;
+    list.forEach(i => { if ((state.c[i] || 0) > 0) n++; });
+    return n;
   }
 
   /* ==== 設定 ==== */
-  const PERSONALIZED = false; // true にすると一人ひとり違う宣告になる（端末ごとのシード）
+  const PERSONALIZED = true;  // 一人ひとり違う宣告になる（端末ごとのシード）
+  const SEASONAL_CHANCE = 12; // その月の限定アイテムが出る確率（%）
+  const FRAG_GAIN = { 1:1, 2:3, 3:8, 4:20 };    // ダブった時にもらえる欠片
+  const FRAG_COST = { 1:15, 2:40, 3:100, 4:300 }; // 欠片と交換する時の必要数
   const GRACE_DAYS   = 3;     // 何日までの空白なら連続記録を続けてあげるか
 
   /* ==== Date helpers ==== */
@@ -1014,18 +1600,52 @@ html, body {
   // 言葉のアルバム（履歴）は localStorage 側にだけ入っている
   if (!state.h && lsData && lsData.h) state.h = lsData.h;
   if (!state.h) state.h = [];
+  if (typeof state.fr !== 'number') state.fr = 0; // 欠片
+  if (typeof state.vd !== 'number') state.vd = 0; // 通算来訪日数
+  if (typeof state.lv !== 'number') state.lv = 1; // 到達済みの親密度
+  if (!state.c) state.c = {};   // 所持数 { itemIndex: 個数 }
+  if (!state.cd) state.cd = {}; // 初回入手日 { itemIndex: 'YYYY-MM-DD' }
   if (!state.u) state.u = makeUid();
+
+  /* 所持状況を短い文字列に畳む（cookieは容量が小さいので個数は捨てて有無だけ残す） */
+  const MASK_CHUNK = 15;
+  function packOwned(){
+    const out = [];
+    for (let base = 0; base < items.length; base += MASK_CHUNK) {
+      let bits = 0;
+      for (let k = 0; k < MASK_CHUNK; k++) {
+        if (state.c[base + k] > 0) bits |= (1 << k);
+      }
+      out.push(bits.toString(36));
+    }
+    return out.join('.');
+  }
+  function unpackOwned(str){
+    if (!str) return;
+    str.split('.').forEach((chunk, ci) => {
+      const bits = parseInt(chunk, 36) || 0;
+      for (let k = 0; k < MASK_CHUNK; k++) {
+        const idx = ci * MASK_CHUNK + k;
+        if ((bits & (1 << k)) && !state.c[idx]) state.c[idx] = 1;
+      }
+    });
+  }
 
   function saveState(){
     try { localStorage.setItem(STATE_KEY, JSON.stringify(state)); } catch(e){}
     try {
       // cookie には履歴を除いた小さなコアだけ入れる（容量制限のため）
       const core = { d: state.d, s: state.s, v: state.v, u: state.u,
-                     f: state.f, n: state.n, nA: state.nA, t: state.t, i: state.i };
+                     f: state.f, n: state.n, nA: state.nA, t: state.t, i: state.i,
+                     fr: state.fr, vd: state.vd, lv: state.lv,
+                     us: state.us, sp: state.sp, cm: packOwned() };
       document.cookie = STATE_KEY + '=' + encodeURIComponent(JSON.stringify(core)) +
         '; max-age=34560000; path=/; SameSite=Lax';
     } catch(e){}
   }
+  // localStorage が消えていた場合、cookie の所持マスクから図鑑を復元する
+  if (state.cm) { unpackOwned(state.cm); delete state.cm; }
+
   // 出会った日（初回訪問日）。過去ユーザーは連続記録から推定する
   if (!state.f) state.f = state.d ? shiftDay(state.d, -Math.max((state.s || 1) - 1, 0)) : today;
 
@@ -1045,23 +1665,90 @@ html, body {
     return { streak: 1, kind: 'broken', prevStreak: state.s };                // リセット
   }
 
+  /* ==== 今日のアイテムを確定する（同じ日は必ず同じ結果） ==== */
+  function todaysItem(){
+    if (state.v === today && typeof state.ix === 'number') {
+      // 今日ぶんはすでに確定済み — そのまま返す
+      return { idx: state.ix, isNew: !!state.inew };
+    }
+    const idx   = pickItemIndex(today, isGoldDay(today));
+    const isNew = !state.c[idx];
+    return { idx: idx, isNew: isNew };
+  }
+
+  function grantItem(draw){
+    if (state.v === today && typeof state.ix === 'number') return; // 二重取得を防ぐ
+    const had = (state.c[draw.idx] || 0) > 0;
+    state.c[draw.idx]  = (state.c[draw.idx] || 0) + 1;
+    if (!state.cd[draw.idx]) state.cd[draw.idx] = today;
+    state.ix   = draw.idx;
+    state.inew = draw.isNew ? 1 : 0;
+    // すでに持っているものは欠片に変わる
+    state.fg = had ? (FRAG_GAIN[items[draw.idx].r] || 1) : 0;
+    if (state.fg) state.fr += state.fg;
+  }
+
+  function ownedCount(){
+    let n = 0;
+    for (const k in state.c) if (state.c[k] > 0) n++;
+    return n;
+  }
+  function starsOf(r){ return '★'.repeat(r) + '☆'.repeat(4 - r); }
+
+  /* ==== しゅんとの親密度 ====
+     来た日数と集めた数の両方で伸びる。休んでも下がらない。 */
+  const LEVELS = [
+    { min: 0,   name: "宵の入り" },
+    { min: 50,  name: "灯る"     },
+    { min: 140, name: "馴染む"   },
+    { min: 320, name: "ほどける" },
+    { min: 650, name: "明かす"   }
+  ];
+  function intimacyScore(){ return state.vd * 2 + countOwned(permIndices()) + countOwned(seasonalAll()); }
+  function seasonalAll(){
+    const out = [];
+    for (let i = 0; i < items.length; i++) if (isSeasonal(items[i])) out.push(i);
+    return out;
+  }
+  function intimacyLevel(){
+    let lv = 1;
+    for (let i = 0; i < LEVELS.length; i++) if (intimacyScore() >= LEVELS[i].min) lv = i + 1;
+    return lv;
+  }
+  function intimacyName(){ return LEVELS[intimacyLevel() - 1].name; }
+  /* 口調の段階（0:よそよそしい 1:打ち解けた 2:素を見せる） */
+  function toneTier(){ const lv = intimacyLevel(); return lv <= 2 ? 0 : (lv <= 4 ? 1 : 2); }
+  function nextLevelAt(){
+    const lv = intimacyLevel();
+    return lv >= LEVELS.length ? null : LEVELS[lv].min;
+  }
+
   function saveStreak(streak, content){
+    if (state.d !== today) state.vd += 1; // 新しい日に来た
     state.d = today;
     state.s = streak;
     state.v = today;
     state.t = content.text;
-    state.i = (content.item === undefined) ? null : content.item;
+    state.i = (typeof state.ix === 'number' && items[state.ix]) ? items[state.ix].e : null;
     // アルバムに今日の言葉を追加（最新400件まで）
-    state.h.push({ k: today, t: content.text, i: state.i, g: isGoldDay(today) ? 1 : 0 });
+    state.h.push({ k: today, t: content.text, i: state.i, g: isGoldDay(today) ? 1 : 0,
+                   x: (typeof state.ix === 'number') ? state.ix : null });
     if (state.h.length > 400) state.h = state.h.slice(-400);
     saveState();
   }
 
   /* ==== Deterministic oracle pick ==== */
   function hashStr(str){
-    let h = 0;
-    for (let i=0; i<str.length; i++) h = (h*31 + str.charCodeAt(i)) >>> 0;
-    return h;
+    let h = 2166136261 >>> 0;
+    for (let i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 16777619) >>> 0;
+    }
+    // 最終撹拌（これがないと下位ビットが偏り、% 100 等で結果が片寄る）
+    h ^= h >>> 16; h = Math.imul(h, 2246822507) >>> 0;
+    h ^= h >>> 13; h = Math.imul(h, 3266489909) >>> 0;
+    h ^= h >>> 16;
+    return h >>> 0;
   }
   function dayNumberOf(dateKey){
     return Math.round(new Date(dateKey + 'T00:00:00') / 86400000);
@@ -1148,6 +1835,10 @@ html, body {
 
     renderStreak(streak);
 
+    // ==== 今日のラッキーアイテムを抽選（金の日はレアリティ確定） ====
+    const draw = todaysItem();
+    const item = items[draw.idx];
+
     // ==== カードの装飾（金・月・記念日・宛名）は毎回反映する ====
     const goldDay  = isGoldDay(today);
     const moonKind = moonKindOf(today);
@@ -1160,6 +1851,13 @@ html, body {
       moonEl.classList.add('on');
     }
     document.getElementById('anniv').textContent = '出会って ' + days + '日目';
+    const bondEl = document.getElementById('bond');
+    bondEl.innerHTML = '';
+    bondEl.appendChild(document.createTextNode('絆'));
+    const dot = document.createElement('span');
+    dot.className = 'dot'; dot.textContent = '・';
+    bondEl.appendChild(dot);
+    bondEl.appendChild(document.createTextNode(intimacyName()));
     if (state.n) {
       const toEl = document.getElementById('to-name');
       toEl.textContent = state.n + ' へ';
@@ -1168,6 +1866,7 @@ html, body {
 
     // ==== 今日の言葉を決める（優先順位つき） ====
     const isMilestone = streak % 7 === 0 && streak > 0;
+    streakIsMilestone = isMilestone && kind === 'normal';
     let content;
     if (kind === 'viewed' && typeof state.t === 'string') {
       // 同じ日の再訪問 — 今日見せたカードをそのまま復元
@@ -1204,16 +1903,13 @@ html, body {
 
     if (kind === 'viewed') {
       // 2nd+ open same day: show instantly + revisit message
-      luckyItem.textContent = content.item || '—';
+      luckyItem.textContent = item.e;
+      renderItemMeta(item, draw.isNew);
       animateChars(oracleEl, content.text, 0, 0);
       divider.classList.add('on');
       luckyWrap.classList.add('on');
       signature.classList.add('on');
       hashtag.classList.add('on');
-      if (!content.item) {
-        divider.style.display = 'none';
-        luckyWrap.style.display = 'none';
-      }
       setTimeout(() => {
         revisitEl.classList.add('on');
         animateChars(revisitText, revisitMsg(), 200, 55);
@@ -1226,20 +1922,84 @@ html, body {
     const perChar    = 85;
     const textEnd    = animateChars(oracleEl, content.text, startDelay, perChar);
 
-    if (content.item) {
-      luckyItem.textContent = content.item;
-      setTimeout(() => divider.classList.add('on'),    textEnd + 200);
-      setTimeout(() => luckyWrap.classList.add('on'),  textEnd + 500);
-    } else {
-      divider.style.display = 'none';
-      luckyWrap.style.display = 'none';
-    }
+    luckyItem.textContent = item.e;
+    renderItemMeta(item, draw.isNew);
+    setTimeout(() => divider.classList.add('on'),    textEnd + 200);
+    setTimeout(() => luckyWrap.classList.add('on'),  textEnd + 500);
     setTimeout(() => signature.classList.add('on'),  textEnd + 850);
     setTimeout(() => hashtag.classList.add('on'),    textEnd + 1150);
 
     // Save after everything kicks off
+    grantItem(draw);
     saveStreak(streak, content);
+
+    // 親密度が上がっていたら演出を出す
+    const lvNow = intimacyLevel();
+    if (lvNow > (state.lv || 1)) {
+      state.lv = lvNow;
+      saveState();
+      const wrap = document.getElementById('levelup');
+      document.getElementById('levelup-name').textContent = intimacyName();
+      document.getElementById('levelup-msg').textContent  = levelupMessages[lvNow] || '';
+      setTimeout(() => wrap.classList.add('show'), kind === 'viewed' ? 300 : 5200);
+    }
+
+    // 今日は人に見せる価値がある日か（毎日は誘わない）
+    setTimeout(() => maybeUrgeShare(item, draw, kind), kind === 'viewed' ? 600 : 5000);
   }
+
+  /* ==== 特別な日だけシェアを勧める ====
+     毎日勧めるとフォロワーに同じ投稿が並んで、結局だれも投稿しなくなる。 */
+  const URGE_COOLDOWN = 14; // 前に勧めてから最低これだけ日を空ける
+  const STREAK_WORTH  = [30, 50, 100, 200, 365];
+
+  function maybeUrgeShare(item, draw, kind){
+    if (kind === 'viewed') return;                                  // 同じ日に何度も言わない
+    if (state.us && daysBetween(state.us, today) < URGE_COOLDOWN) return;
+
+    const perm = permIndices();
+    const pct  = Math.floor(countOwned(perm) / perm.length * 4) * 25; // 25/50/75/100 の節目だけ
+    let msg = null;
+
+    if (item.r === 4 && draw.isNew) {
+      msg = "……それ、めったに出ないやつだよ。\n見せびらかしてきなよ。";
+    } else if (isGoldDay(today)) {
+      msg = "金の宣告の日。\n今日のは、残しておく価値がある。";
+    } else if (isSeasonal(item) && draw.isNew) {
+      msg = "今月しか手に入らないもの。\n持ってること、自慢していいよ。";
+    } else if (pct >= 25 && pct > (state.sp || 0)) {
+      state.sp = pct;
+      msg = "宝物庫が " + pct + "% 埋まった。\nそろそろ見せてもいい頃じゃない？";
+    } else if (streakIsMilestone && STREAK_WORTH.indexOf(state.s) >= 0) {
+      msg = "ここまで続けた人、そんなにいないよ。\n記録、見せてきなよ。";
+    }
+
+    if (!msg) return;
+    state.us = today;
+    saveState();
+    document.getElementById('urge-line').textContent = msg;
+    document.getElementById('urge-line').classList.add('on');
+    document.getElementById('save-btn').classList.add('urge');
+  }
+
+  function renderItemMeta(item, isNew){
+    const jp  = document.getElementById('lucky-jp');
+    const rar = document.getElementById('lucky-rarity');
+    const nw  = document.getElementById('lucky-new');
+    jp.textContent  = item.n;
+    rar.innerHTML   = '';
+    const st = document.createElement('span');
+    st.className   = 'r' + item.r;
+    st.textContent = starsOf(item.r);
+    const lb = document.createElement('span');
+    lb.className   = 'jp r' + item.r;
+    lb.textContent = RARITY_LABEL[item.r];
+    rar.appendChild(st);
+    rar.appendChild(lb);
+    if (isNew) nw.classList.add('on');
+  }
+
+  let streakIsMilestone = false;
 
   /* ==== Boot ==== */
   const streakInfo = loadStreak();
@@ -1285,13 +2045,239 @@ html, body {
     if (hr < 22 && hr >= 4) return;
     const wrap   = document.getElementById('night-note');
     const textEl = document.getElementById('night-text');
-    let line = nightLines[hashStr(today) % nightLines.length];
+    const pool = nightLinesByTone[toneTier()];
+    let line = pool[hashStr(today) % pool.length];
     if (state.n) line = state.n + '、' + line;
     setTimeout(() => {
       wrap.classList.add('show');
       setTimeout(() => wrap.classList.add('on'), 30);
       animateChars(textEl, line, 250, 50);
     }, streakInfo.kind === 'viewed' ? 1400 : 4200);
+  })();
+
+  /* ==== 宝物庫（ラッキーアイテム図鑑） ==== */
+  (function(){
+    const vault    = document.getElementById('vault');
+    const grid     = document.getElementById('vault-grid');
+    const countEl  = document.getElementById('vault-count');
+    const barEl    = document.getElementById('vault-bar-fill');
+    const openBtn  = document.getElementById('vault-btn');
+    const closeBtn = document.getElementById('vault-close');
+    const sheet    = document.getElementById('sheet');
+
+    let sheetIdx = null;
+
+    function openSheet(idx){
+      sheetIdx = idx;
+      const it   = items[idx];
+      const have = (state.c[idx] || 0) > 0;
+      const cost = FRAG_COST[it.r] || 999;
+      const thisMonth = !isSeasonal(it) || it.m === monthOf(today);
+
+      document.getElementById('sheet-star').textContent =
+        starsOf(it.r) + '  ' + (isSeasonal(it) ? '限定' : RARITY_LABEL[it.r]);
+      document.getElementById('sheet-star').className = 'sheet-star r' + it.r;
+      document.getElementById('sheet-jp').textContent = have ? it.n : '？？？';
+      document.getElementById('sheet-en').textContent = have ? it.e : '';
+      document.getElementById('sheet-c').textContent  = have ? it.c : 'まだ手にしていない。';
+
+      const n = state.c[idx] || 0;
+      const d = state.cd[idx] ? state.cd[idx].replace(/-/g, '.') : '';
+      document.getElementById('sheet-meta').textContent =
+        (d ? 'FIRST  ' + d : '') + (n > 1 ? '\u3000\u3000\u00d7' + n : '');
+
+      const trade = document.getElementById('sheet-trade');
+      const note  = document.getElementById('sheet-note');
+      if (have) {
+        trade.style.display = 'none';
+        note.textContent = '';
+      } else {
+        trade.style.display = '';
+        trade.textContent = '欠片 ' + cost + ' で手に入れる';
+        const affordable = state.fr >= cost && thisMonth;
+        trade.disabled = !affordable;
+        note.textContent = !thisMonth
+          ? '今月は交換できない。\nこの子の月が来るまで待って。'
+          : (affordable ? '' : '今は ' + state.fr + ' 個。あと ' + (cost - state.fr) + ' 個。');
+      }
+      sheet.classList.add('show');
+    }
+
+    document.getElementById('sheet-trade').addEventListener('click', () => {
+      if (sheetIdx === null) return;
+      const it   = items[sheetIdx];
+      const cost = FRAG_COST[it.r] || 999;
+      if (state.fr < cost) return;
+      if (isSeasonal(it) && it.m !== monthOf(today)) return;
+      state.fr -= cost;
+      state.c[sheetIdx] = 1;
+      state.cd[sheetIdx] = today;
+      saveState();
+      render();
+      openSheet(sheetIdx);
+    });
+
+    function buildCell(idx){
+      const it   = items[idx];
+      const have = (state.c[idx] || 0) > 0;
+      const cost = FRAG_COST[it.r] || 999;
+      const thisMonth = !isSeasonal(it) || it.m === monthOf(today);
+      const cell = document.createElement('div');
+
+      let cls = 'slot';
+      if (have) {
+        cls += ' r' + it.r;
+        if (isSeasonal(it)) cls += ' seasonal';
+        if (idx === state.ix && state.inew) cls += ' is-new';
+      } else {
+        cls += ' locked';
+        if (isSeasonal(it) && !thisMonth) cls += ' expired';
+        else if (state.fr >= cost) cls += ' affordable';
+      }
+      cell.className = cls;
+
+      if (have) {
+        const nm = document.createElement('div');
+        nm.className = 'slot-name'; nm.textContent = it.n;
+        cell.appendChild(nm);
+        const st = document.createElement('div');
+        st.className = 'slot-star r' + it.r; st.textContent = starsOf(it.r);
+        cell.appendChild(st);
+        if (isSeasonal(it)) {
+          const tg = document.createElement('div');
+          tg.className = 'slot-tag'; tg.textContent = it.m + '月限定';
+          cell.appendChild(tg);
+        }
+        if (state.c[idx] > 1) {
+          const du = document.createElement('div');
+          du.className = 'slot-dup'; du.textContent = '\u00d7' + state.c[idx];
+          cell.appendChild(du);
+        }
+      } else {
+        const lk = document.createElement('div');
+        lk.className = 'slot-lock'; lk.textContent = '？';
+        cell.appendChild(lk);
+        const st = document.createElement('div');
+        st.className = 'slot-star'; st.textContent = starsOf(it.r);
+        cell.appendChild(st);
+        if (thisMonth && state.fr >= cost) {
+          const cs = document.createElement('div');
+          cs.className = 'slot-cost'; cs.textContent = '欠片 ' + cost;
+          cell.appendChild(cs);
+        }
+      }
+      cell.addEventListener('click', () => openSheet(idx));
+      return cell;
+    }
+
+    function render(){
+      const perm = permIndices();
+      const seas = seasonalAll();
+      const thisMonthSeas = seasonalIndicesFor(monthOf(today));
+
+      const po = countOwned(perm);
+      countEl.textContent = po + ' / ' + perm.length + '  COLLECTED';
+      barEl.style.width = Math.round(po / perm.length * 100) + '%';
+      document.getElementById('vault-frag-n').textContent = '欠片 ' + state.fr;
+      document.getElementById('sec-perm').textContent = po + ' / ' + perm.length;
+      document.getElementById('sec-season').textContent = countOwned(seas) + ' / ' + seas.length;
+      document.getElementById('sec-season-label').textContent =
+        '限定　―　今月は ' + monthOf(today) + '月';
+
+      grid.innerHTML = '';
+      perm.forEach(idx => grid.appendChild(buildCell(idx)));
+
+      // 限定は「今月の分」と「すでに持っている分」だけ並べる
+      const seasonGrid = document.getElementById('vault-grid-season');
+      seasonGrid.innerHTML = '';
+      seas.forEach(idx => {
+        const show = thisMonthSeas.indexOf(idx) >= 0 || (state.c[idx] || 0) > 0;
+        if (show) seasonGrid.appendChild(buildCell(idx));
+      });
+    }
+
+    /* シェア用カードを組み立てる（所持状況が変わるたび絵が変わる） */
+    function buildCard(){
+      const owned = ownedCount();
+      document.getElementById('vc-owned').textContent = owned;
+      document.getElementById('vc-total').textContent = items.length;
+
+      const g = document.getElementById('vc-grid');
+      g.innerHTML = '';
+      items.forEach((it, idx) => {
+        const cell = document.createElement('div');
+        cell.className = 'vcell' + ((state.c[idx] || 0) > 0 ? ' o' + it.r : '');
+        g.appendChild(cell);
+      });
+
+      const tiers = document.getElementById('vc-tiers');
+      tiers.innerHTML = '';
+      [4, 3, 2, 1].forEach((r) => {
+        const all  = items.filter(x => x.r === r).length;
+        const have = items.filter((x, i) => x.r === r && (state.c[i] || 0) > 0).length;
+        const sp = document.createElement('span');
+        sp.className   = 'r' + r;
+        sp.textContent = RARITY_LABEL[r] + ' ' + have + '/' + all;
+        tiers.appendChild(sp);
+      });
+
+      document.getElementById('vc-foot').textContent =
+        (state.n ? state.n + '　・　' : '') + '出会って ' + totalDays() + '日目';
+    }
+
+    document.getElementById('vault-share').addEventListener('click', async () => {
+      const btn = document.getElementById('vault-share');
+      const label = btn.textContent;
+      btn.textContent = '生成中...';
+      btn.style.pointerEvents = 'none';
+      try {
+        buildCard();
+        const card = document.getElementById('vault-card');
+        const canvas = await html2canvas(card, {
+          backgroundColor: '#09090d', scale: 3, useCORS: true,
+          logging: false, width: card.offsetWidth, height: card.offsetHeight,
+          windowWidth: card.offsetWidth
+        });
+        canvas.toBlob(async (blob) => {
+          const filename = 'しゅんの宝物庫_' + today + '.png';
+          const text = '宝物庫 ' + ownedCount() + '/' + items.length +
+                       '\n\n#しゅんの宣告\nhttps://sn01dose.github.io/shun-no-senkoku/';
+          const file = new File([blob], filename, { type: 'image/png' });
+          if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({ files: [file], title: 'しゅんの宝物庫', text: text });
+          } else {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = filename; a.click();
+            URL.revokeObjectURL(url);
+            const ov = document.getElementById('dl-overlay');
+            ov.classList.add('show');
+            setTimeout(() => ov.classList.remove('show'), 2400);
+          }
+          btn.textContent = label;
+          btn.style.pointerEvents = '';
+        }, 'image/png');
+      } catch(err) {
+        console.error(err);
+        btn.textContent = label;
+        btn.style.pointerEvents = '';
+      }
+    });
+
+    openBtn.addEventListener('click', () => {
+      render();
+      vault.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    });
+    closeBtn.addEventListener('click', () => {
+      vault.classList.remove('show');
+      document.body.style.overflow = '';
+    });
+    document.getElementById('levelup-close').addEventListener('click', () => {
+      document.getElementById('levelup').classList.remove('show');
+    });
+    document.getElementById('sheet-close').addEventListener('click', () => sheet.classList.remove('show'));
+    sheet.addEventListener('click', (e) => { if (e.target === sheet) sheet.classList.remove('show'); });
   })();
 
   /* ==== 言葉のアルバム ==== */
@@ -1322,10 +2308,13 @@ html, body {
         t.textContent = e.t;
         div.appendChild(d);
         div.appendChild(t);
-        if (e.i) {
+        const label = (typeof e.x === 'number' && items[e.x])
+          ? items[e.x].n + '　' + items[e.x].e
+          : e.i;
+        if (label) {
           const it = document.createElement('div');
           it.className = 'album-item';
-          it.textContent = e.i;
+          it.textContent = label;
           div.appendChild(it);
         }
         list.appendChild(div);
