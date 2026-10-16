@@ -2227,19 +2227,21 @@ html, body {
         const nm = document.createElement('div');
         nm.className = 'slot-name'; nm.textContent = it.n;
         cell.appendChild(nm);
+        // 星・限定月・所持数は1行にまとめる（行が増えるとマスの下で切れるため）
         const st = document.createElement('div');
-        st.className = 'slot-star r' + it.r; st.textContent = starsOf(it.r);
-        cell.appendChild(st);
+        st.className = 'slot-star r' + it.r;
+        st.appendChild(document.createTextNode(starsOf(it.r)));
         if (isSeasonal(it)) {
-          const tg = document.createElement('div');
-          tg.className = 'slot-tag'; tg.textContent = it.m + '月限定';
-          cell.appendChild(tg);
+          const tg = document.createElement('span');
+          tg.className = 'slot-tag'; tg.textContent = ' ' + it.m + '月';
+          st.appendChild(tg);
         }
         if (state.c[idx] > 1) {
-          const du = document.createElement('div');
-          du.className = 'slot-dup'; du.textContent = '\u00d7' + state.c[idx];
-          cell.appendChild(du);
+          const du = document.createElement('span');
+          du.className = 'slot-dup'; du.textContent = ' ×' + state.c[idx];
+          st.appendChild(du);
         }
+        cell.appendChild(st);
       } else {
         const lk = document.createElement('div');
         lk.className = 'slot-lock'; lk.textContent = '？';
