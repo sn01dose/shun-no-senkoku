@@ -773,6 +773,14 @@ html, body {
 .r2 { color: #a8c4d8; }
 .r3 { color: #cbb2e0; }
 .r4 { color: #e6c87a; }
+.r5 { color: #d98c9a; }
+.legend .c-art {
+  border-color: rgba(217,140,154,0.7);
+  box-shadow: 0 0 0 4px rgba(5,5,7,0.75), 0 0 26px rgba(217,140,154,0.35);
+}
+.legend .c-lucky-badge { border-color: rgba(217,140,154,0.85); color: #f3dde2; }
+.legend .c-lucky-badge::before, .legend .c-lucky-badge::after { border-color: #d98c9a; }
+#capture-card.legend { box-shadow: inset 0 0 0 0.5px rgba(217,140,154,0.5); }
 .c-new-tag {
   display: none;
   margin-top: 10px;
@@ -869,6 +877,7 @@ html, body {
 .slot.r2 { border-color: rgba(168,196,216,0.3); }
 .slot.r3 { border-color: rgba(203,178,224,0.35); }
 .slot.r4 { border-color: rgba(230,200,122,0.5); background: rgba(230,200,122,0.045); }
+.slot.r5 { border-color: rgba(217,140,154,0.6); background: rgba(217,140,154,0.05); }
 .slot.is-new { border-color: rgba(224,208,160,0.85); }
 
 /* ---- Intimacy ---- */
@@ -1038,6 +1047,7 @@ html, body {
 .vcell.o2 { background: #a8c4d8; border-color: #a8c4d8; }
 .vcell.o3 { background: #cbb2e0; border-color: #cbb2e0; }
 .vcell.o4 { background: #e6c87a; border-color: #e6c87a; }
+.vcell.o5 { background: #d98c9a; border-color: #d98c9a; }
 .vcard-tiers {
   margin-top: 26px;
   display: flex; justify-content: center; gap: 16px;
@@ -1543,7 +1553,13 @@ html, body {
     { m:11, n:"紅葉の一葉",   e:"Single Maple Leaf", r:3, c:"落ちる直前が一番赤い。\n派手にいきな。" },
     { m:11, n:"温めた葡萄酒", e:"Mulled Wine",       r:3, c:"冷えた日は内側から。\n無理に笑うより効くよ。" },
     { m:12, n:"聖夜の燭台",   e:"Midwinter Candelabra",r:3,c:"誰といるかで決まる夜。\n…僕はここにいるけど。" },
-    { m:12, n:"銀の雪片",     e:"Silver Snowflake",  r:3, c:"同じ形は二つとない。\n君と同じで、探すだけ無駄。" }
+    { m:12, n:"銀の雪片",     e:"Silver Snowflake",  r:3, c:"同じ形は二つとない。\n君と同じで、探すだけ無駄。" },
+
+    /* ---- ★5 超激レア（約0.2%）---- */
+    { n:"対の枷環",     e:"Twin Shackle Bangles", r:5, c:"似合ってる。\n……外し方？　教えるわけないでしょ。" },
+    { n:"錠前の首飾り", e:"Padlock Choker",       r:5, c:"鍵なら僕が持ってる。\nずっとね。" },
+    { n:"白銀の手枷",   e:"Silver Manacles",      r:5, c:"特別製だよ。\n君の手首に合わせて作らせた。" },
+    { n:"赤い糸の鎖",   e:"Thread Turned Chain",  r:5, c:"糸じゃ切れちゃうから。\n鎖にしておいた。" }
   ];
 
   function isSeasonal(it){ return typeof it.m === 'number'; }
@@ -1554,7 +1570,7 @@ html, body {
     return out;
   }
 
-  const RARITY_LABEL = { 1:"常", 2:"稀", 3:"貴", 4:"極" };
+  const RARITY_LABEL = { 1:"常", 2:"稀", 3:"貴", 4:"極", 5:"禁" };
 
   /* ==== その日のアイテムを決める（人ごと・日ごとに決定的） ==== */
   function itemsOfRarity(r){
@@ -1566,12 +1582,18 @@ html, body {
   function rarityForDay(dateKey, forceRare){
     if (forceRare) return 4;
     const roll = hashStr(dateKey + '|rar|' + state.u) % 1000;
-    if (roll < 20)  return 4;   // 2%
+    if (roll < 2)   return 5;   // 0.2%（★5 超激レア）
+    if (roll < 20)  return 4;   // 1.8%
     if (roll < 130) return 3;   // 11%
     if (roll < 400) return 2;   // 27%
     return 1;                   // 60%
   }
   function pickItemIndex(dateKey, forceRare){
+    // ★5は限定枠より優先する
+    if (!forceRare && rarityForDay(dateKey, false) === 5) {
+      const p5 = itemsOfRarity(5);
+      return p5[hashStr(dateKey + '|itm|' + state.u) % p5.length];
+    }
     // 月替わりの限定枠（金の宣告の日は★4優先なので回さない）
     if (!forceRare && hashStr(dateKey + '|sea|' + state.u) % 100 < SEASONAL_CHANCE) {
       const sp = seasonalIndicesFor(monthOf(dateKey));
@@ -1597,8 +1619,8 @@ html, body {
   /* ==== 設定 ==== */
   const PERSONALIZED = true;  // 一人ひとり違う宣告になる（端末ごとのシード）
   const SEASONAL_CHANCE = 12; // その月の限定アイテムが出る確率（%）
-  const FRAG_GAIN = { 1:1, 2:3, 3:8, 4:20 };    // ダブった時にもらえる欠片
-  const FRAG_COST = { 1:15, 2:40, 3:100, 4:300 }; // 欠片と交換する時の必要数
+  const FRAG_GAIN = { 1:1, 2:3, 3:8, 4:20, 5:50 };    // ダブった時にもらえる欠片
+  const FRAG_COST = { 1:15, 2:40, 3:100, 4:300, 5:999 }; // 欠片と交換する時の必要数
   const GRACE_DAYS   = 3;     // 何日までの空白なら連続記録を続けてあげるか
 
   /* ==== Date helpers ==== */
@@ -1747,7 +1769,7 @@ html, body {
     for (const k in state.c) if (state.c[k] > 0) n++;
     return n;
   }
-  function starsOf(r){ return '★'.repeat(r) + '☆'.repeat(4 - r); }
+  function starsOf(r){ return r >= 5 ? '★★★★★' : '★'.repeat(r) + '☆'.repeat(4 - r); }
 
   /* ==== カード絵のパス ==== */
   const CARD_DIR = 'cards/';
@@ -2022,7 +2044,9 @@ html, body {
     const pct  = Math.floor(countOwned(perm) / perm.length * 4) * 25; // 25/50/75/100 の節目だけ
     let msg = null;
 
-    if (item.r === 4 && draw.isNew) {
+    if (item.r === 5 && draw.isNew) {
+      msg = "……捕まえた。\nこれを持ってる子、他にいないと思うよ。";
+    } else if (item.r === 4 && draw.isNew) {
       msg = "……それ、めったに出ないやつだよ。\n見せびらかしてきなよ。";
     } else if (isGoldDay(today)) {
       msg = "金の宣告の日。\n今日のは、残しておく価値がある。";
@@ -2044,6 +2068,7 @@ html, body {
   }
 
   function renderItemMeta(item, isNew, idx, fast){
+    if (item.r === 5) document.getElementById('capture-card').classList.add('legend');
     const art = document.getElementById('lucky-art');
     if (art) {
       art.src = artSrc(idx, true);
@@ -2301,7 +2326,7 @@ html, body {
 
       const tiers = document.getElementById('vc-tiers');
       tiers.innerHTML = '';
-      [4, 3, 2, 1].forEach((r) => {
+      [5, 4, 3, 2, 1].forEach((r) => {
         const all  = items.filter(x => x.r === r).length;
         const have = items.filter((x, i) => x.r === r && (state.c[i] || 0) > 0).length;
         const sp = document.createElement('span');
